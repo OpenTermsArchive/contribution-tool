@@ -5,5 +5,10 @@
       - build-essential
       - nano
       - telnet
+      - curl
+      - ca-certificates
+      - gnupg
+      - git
+      - zip
     update_cache: yes
     state: latest
