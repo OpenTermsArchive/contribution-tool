@@ -51,6 +51,10 @@
   & label {
     margin-top: var(--mS);
     margin-bottom: var(--m2XS);
+
+    & a {
+      font-weight: normal;
+    }
   }
 
   & textarea {
@@ -84,31 +88,17 @@
   padding: 0 var(--mM) var(--mL) var(--mM);
 }
 
-.formBottom {
-  margin-top: auto;
-  padding: var(--mXS) var(--mXS);
-}
-
-.formInfos {
-  border-top: 1px solid var(--colorBlack200);
-  padding-top: var(--mXS);
-  padding-bottom: var(--mXS);
-}
-
 .formActions {
   border-top: 1px solid var(--colorBlack400);
-  padding: var(--mXS);
+  padding: var(--mM);
   display: flex;
   justify-content: space-between;
+  gap: var(--mM);
+  background-color: var(--colorBlack200);
 }
 
 .contribute {
-  font-size: 0.8em;
-  text-align: right;
-  padding: 0 var(--pXS) var(--pXS);
-  & a {
-    display: block;
-  }
+  border-top: 1px solid var(--colorBlack400);
 }
 
 .wrapper {
@@ -133,9 +123,8 @@
 .selectionItem {
   display: flex;
   align-items: center;
-  padding: var(--mXS) 0;
+  padding-bottom: var(--mXS);
   margin: 0;
-  border-top: 1px solid var(--colorBlack200);
 
   & table {
     flex: 1;
@@ -209,7 +198,7 @@
 .expertButtons {
   margin-top: var(--mS);
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -217,7 +206,7 @@
 }
 
 .toggleExpertMode {
-  border-top: 1px solid var(--colorBlack200);
+  border-top: 1px solid var(--colorBlack400);
   padding-top: var(--pM);
   display: flex;
   align-items: center;

@@ -17,6 +17,7 @@ interface Contributor {
 
 type ContributorFormProps = {
   onContributorChange: (contributor: Contributor) => any;
+  onSubmitDocument?: any;
   mdxContent: any;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -46,6 +47,7 @@ export const useContributor = () => {
 const ContributorForm: React.FC<ContributorFormProps> = ({
   className,
   onContributorChange,
+  onSubmitDocument,
   mdxContent,
   ...props
 }) => {
@@ -61,9 +63,13 @@ const ContributorForm: React.FC<ContributorFormProps> = ({
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { email, name } = (event.target as HTMLFormElement).elements as FormElements;
+    if (onSubmitDocument) {
+      onSubmitDocument();
+    } else {
+      const { email, name } = (event.target as HTMLFormElement).elements as FormElements;
 
-    onChangeContributor({ email: email.value, name: name.value });
+      onChangeContributor({ email: email.value, name: name.value });
+    }
   };
 
   return (

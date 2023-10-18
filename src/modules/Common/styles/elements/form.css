@@ -38,6 +38,10 @@ label {
   display: block;
   width: 100%;
   margin-bottom: var(--mXS);
+
+  & > input[type='checkbox'] {
+    margin-left: var(--mXS);
+  }
 }
 
 .label__inline {
@@ -49,7 +53,7 @@ label {
   width: 100%;
 
   & + .formfield {
-    margin-top: var(--mM);
+    margin-top: var(--mL);
   }
 
   &.formfield__alignRight {

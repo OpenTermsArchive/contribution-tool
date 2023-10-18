@@ -30,7 +30,6 @@ import ContributorForm, { useContributor } from 'modules/Common/data-components/
 import useDocumentDeclaration from 'modules/Common/services/useDocumentDeclaration';
 import useConfigDeclaration from 'modules/Common/hooks/useConfigDeclaration';
 import { loadMdxFile, MdxPageProps } from 'modules/I18n/hoc/withMdx';
-import Trans from 'next-translate/Trans';
 
 const EMAIL_SUPPORT = 'contribute@opentermsarchive.org';
 
@@ -289,7 +288,19 @@ Thank you very much`;
           <div className={s.formWrapper}>
             <form>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.url')}</label>
+                <label>
+                  {t('service:form.url')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms#fetch"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <div className={classNames('select')}>
                   <SelectorButton
                     key={'fetch'}
@@ -298,9 +309,33 @@ Thank you very much`;
                     withSwitch={false}
                   />
                 </div>
+                {!executeClientScripts && iframeReady && !isPDF && (
+                  <div className={classNames(s.formInfos, 'text__light', 'mt__XS')}>
+                    <IconAlert /> {t('service:pageNotAccurate.desc')}{' '}
+                    <a
+                      onClick={() =>
+                        onPageDeclarationUpdate('update')('executeClientScripts')(true)
+                      }
+                    >
+                      {t('service:pageNotAccurate.cta')}
+                    </a>
+                  </div>
+                )}
               </div>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.documentType')}</label>
+                <label>
+                  {t('service:form.documentType')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms/#terms-type"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <div className={classNames('select')}>
                   <select
                     onChange={(event) =>
@@ -338,7 +373,19 @@ Thank you very much`;
                 </div>
               </div>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.serviceName')}</label>
+                <label>
+                  {t('service:form.serviceName')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms/#service-name"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <SelectorButton
                   key={'name'}
                   value={declaration.name}
@@ -349,16 +396,33 @@ Thank you very much`;
               {!isPDF && (
                 <>
                   <div key="significantPart" className={classNames('formfield')}>
-                    <label>{t('service:form.significantPart')}</label>
-                    {selectCssSelectors.map((selected, i) => (
-                      <SelectorButton
-                        className={s.selectionItem}
-                        key={typeof selected === 'string' ? selected : JSON.stringify(selected)}
-                        value={selected}
-                        onInputChange={onChangeCssRule('select', i)}
-                        onRemove={onDeleteCssRule('select', i)}
-                      />
-                    ))}
+                    <label>
+                      {t('service:form.significantPart')}
+                      <LinkIcon
+                        href="https://docs.opentermsarchive.org/contributing-terms/#select"
+                        small={true}
+                        iconName="FiHelpCircle"
+                        iconPosition="last"
+                        className="float__right"
+                        target="_blank"
+                      >
+                        Help
+                      </LinkIcon>
+                    </label>
+                    <div className="text__light">
+                      {t('service:form.significantPart.instructions')}
+                    </div>
+                    <div className="mt__XS">
+                      {selectCssSelectors.map((selected, i) => (
+                        <SelectorButton
+                          className={s.selectionItem}
+                          key={typeof selected === 'string' ? selected : JSON.stringify(selected)}
+                          value={selected}
+                          onInputChange={onChangeCssRule('select', i)}
+                          onRemove={onDeleteCssRule('select', i)}
+                        />
+                      ))}
+                    </div>
                     <Button
                       onClick={selectInIframe('select')}
                       disabled={!!iframeSelectionField || !iframeReady}
@@ -371,17 +435,33 @@ Thank you very much`;
 
                   {(selectCssSelectors?.length > 0 || removeCssSelectors?.length > 0) && (
                     <div key="insignificantPart" className={classNames('formfield')}>
-                      <label>{t('service:form.insignificantPart')}</label>
-
-                      {removeCssSelectors.map((removed, i) => (
-                        <SelectorButton
-                          className={s.selectionItem}
-                          key={typeof removed === 'string' ? removed : JSON.stringify(removed)}
-                          value={removed}
-                          onInputChange={onChangeCssRule('remove', i)}
-                          onRemove={onDeleteCssRule('remove', i)}
-                        />
-                      ))}
+                      <label>
+                        {t('service:form.insignificantPart')}
+                        <LinkIcon
+                          href="https://docs.opentermsarchive.org/contributing-terms/#remove"
+                          small={true}
+                          iconName="FiHelpCircle"
+                          iconPosition="last"
+                          className="float__right"
+                          target="_blank"
+                        >
+                          Help
+                        </LinkIcon>
+                      </label>
+                      <div className="text__light">
+                        {t('service:form.insignificantPart.instructions')}
+                      </div>
+                      <div className="mt__XS">
+                        {removeCssSelectors.map((removed, i) => (
+                          <SelectorButton
+                            className={s.selectionItem}
+                            key={typeof removed === 'string' ? removed : JSON.stringify(removed)}
+                            value={removed}
+                            onInputChange={onChangeCssRule('remove', i)}
+                            onRemove={onDeleteCssRule('remove', i)}
+                          />
+                        ))}
+                      </div>
                       <Button
                         onClick={selectInIframe('remove')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -394,7 +474,6 @@ Thank you very much`;
                   )}
                 </>
               )}
-
               <nav key="expertMode" className={classNames('formfield', s.toggleExpertMode)}>
                 <a onClick={() => onConfigInputChange('expertMode')(!expertMode)}>
                   {t('service:expertMode')}
@@ -410,88 +489,97 @@ Thank you very much`;
                 <>
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.links-snapshots-versions')}</label>
-                    <small className={s.expertButtons}>
-                      <a
-                        target="_blank"
-                        href={`https://github.com/${destination}/blob/main/declarations/${encodeURIComponent(
-                          declaration.name
-                        )}.json`}
-                      >
-                        Current JSON
-                      </a>
-
-                      <a
-                        target="_blank"
-                        href={`${versionsRepository}/blob/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.md`}
-                      >
-                        Latest version
-                      </a>
-                      <a
-                        target="_blank"
-                        href={`${versionsRepository}/commits/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.md`}
-                      >
-                        All versions
-                      </a>
-                      <a
-                        target="_blank"
-                        href={`${snapshotsRepository}/blob/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.html`}
-                      >
-                        Latest snapshot
-                      </a>
-                    </small>
+                    <ul className={classNames(s.expertButtons, 'text__light')}>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`https://github.com/${destination}/blob/main/declarations/${encodeURIComponent(
+                            declaration.name
+                          )}.json`}
+                        >
+                          Current JSON
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${versionsRepository}/blob/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.md`}
+                        >
+                          Latest version
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${versionsRepository}/commits/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.md`}
+                        >
+                          All versions
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${snapshotsRepository}/blob/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.html`}
+                        >
+                          Latest snapshot
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                   <div className={classNames('formfield')}>
-                    <label>{t('service:form.executeClientScripts')}</label>
-                    <small className={s.moreinfo}>
-                      {t('service:form.executeClientScripts.more')}
-                    </small>
-                    <div className={classNames('select')}>
-                      <input
-                        type="checkbox"
-                        defaultChecked={!!page?.executeClientScripts}
-                        onChange={(event) =>
-                          onPageDeclarationUpdate('update')('executeClientScripts')(
-                            event.target.checked
-                          )
-                        }
-                        disabled={isPDF}
-                      />
+                    <div className={classNames('select', 'mt__XS')}>
+                      <label htmlFor="executeClientScripts">{t('service:form.executeClientScripts')}
+                        <input
+                          id="executeClientScripts"
+                          type="checkbox"
+                          defaultChecked={!!page?.executeClientScripts}
+                          onChange={(event) =>
+                            onPageDeclarationUpdate('update')('executeClientScripts')(
+                              event.target.checked
+                            )
+                          }
+                          disabled={isPDF}
+                        />
+                      </label>
+                      <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
                     </div>
                   </div>
                   {!isPDF && (
                     <div className={classNames('formfield')}>
-                      <label>{t('service:form.bypassCookies')}</label>
-                      <small className={s.moreinfo}>{t('service:form.bypassCookies.more')}</small>
-                      <div className={classNames('select')}>
+                      <label htmlFor="bypassCookies" >{t('service:form.bypassCookies')}
                         <input
+                          id="bypassCookies"
                           type="checkbox"
                           defaultChecked={!!bypassCookies}
                           onChange={() => onConfigInputChange('bypassCookies')(!bypassCookies)}
                           disabled={isPDF}
                         />
-                      </div>
+                      </label>
+                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
                     </div>
                   )}
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.hiddenPart')}</label>
-                      <small className={s.moreinfo}>{t('service:form.hiddenPart.more')}</small>
-                      {hiddenCssSelectors.map((hidden, i) => (
-                        <SelectorButton
-                          className={s.selectionItem}
-                          key={hidden}
-                          value={hidden}
-                          onInputChange={onChangeCssRule('hidden', i)}
-                          onRemove={onDeleteCssRule('hidden', i)}
-                          withSwitch={false}
-                        />
-                      ))}
+                      <div className="text__light">{t('service:form.hiddenPart.more')}</div>
+                      <div className="mt__XS">
+                        {hiddenCssSelectors.map((hidden, i) => (
+                          <SelectorButton
+                            className={s.selectionItem}
+                            key={hidden}
+                            value={hidden}
+                            onInputChange={onChangeCssRule('hidden', i)}
+                            onRemove={onDeleteCssRule('hidden', i)}
+                            withSwitch={false}
+                          />
+                        ))}
+                      </div>
                       <Button
                         onClick={selectInIframe('hidden')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -504,8 +592,8 @@ Thank you very much`;
                   )}
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.acceptLanguage')}</label>
-                    <small className={s.moreinfo}>{t('service:form.acceptLanguage.more')}</small>
-                    <div className={classNames('select')}>
+                    <div className="text__light">{t('service:form.acceptLanguage.more')}</div>
+                    <div className={classNames('select', 'mt__XS')}>
                       <SelectorButton
                         key={'acceptLanguage'}
                         value={acceptLanguage}
@@ -530,57 +618,30 @@ Thank you very much`;
                       )}
                     </div>
                   </div>
+                  <div className={classNames('formfield', s.expert)}>
+                    <label>{t('service:form.label.snapshot')}</label>
+                    {data?.snapshotUrl && (
+                      <Button href={data?.snapshotUrl} target="_blank" type="secondary" size="sm">
+                        {t('service:show-snapshot')}
+                      </Button>
+                    )}
+                  </div>
                 </>
               )}
             </form>
           </div>
 
-          <div className={s.formBottom}>
-            {!executeClientScripts && iframeReady && !isPDF && (
-              <div
-                className={classNames(s.formInfos, 'text__light', 'text__error', 'text__center')}
-              >
-                <IconAlert /> {t('service:pageNotAccurate.desc')}
-                <br />
-                <a
-                  className={classNames('text__error')}
-                  onClick={() => onPageDeclarationUpdate('update')('executeClientScripts')(true)}
-                >
-                  {t('service:pageNotAccurate.cta')}
-                </a>
-              </div>
-            )}
-          </div>
           <nav className={s.formActions}>
             <Button disabled={versionDisabled} type="secondary" onClick={onVerifyVersion}>
               {t('service:verify-version')}
             </Button>
-            <Button disabled={submitDisabled || loading} onClick={onValidate}>
+            <Button disabled={submitDisabled || loading} onClick={() => showModal('contributor')}>
               {t('service:submit')}
             </Button>
           </nav>
-          <div className={s.contribute}>
-            {contributorEmail && (
-              <Trans
-                i18nKey="service:contributor.info"
-                components={{ strong: <strong /> }}
-                values={{ email: contributorEmail }}
-              />
-            )}
-            <div>
-              <a onClick={() => showModal('contributor')}>{t('service:contributor.change')}</a>
-            </div>
-          </div>
         </div>
       </Drawer>
       <div className={s.main}>
-        <div className={s.linkToSnapshot}>
-          {data?.snapshotUrl && (
-            <a href={data?.snapshotUrl} target="_blank">
-              {t('service:show-snapshot')}
-            </a>
-          )}
-        </div>
         {isLoadingIframe && (
           <div className={s.fullPage}>
             <h1>{t('service:loading.title')}</h1>
@@ -605,6 +666,7 @@ Thank you very much`;
                   setContributorEmail(email);
                   showModal(undefined);
                 }}
+                onSubmitDocument={onValidate}
                 mdxContent={contributorFormMdx}
               />
             )}

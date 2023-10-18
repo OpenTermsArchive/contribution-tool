@@ -32,6 +32,20 @@
       transform: rotate(180deg);
     }
   }
+
+  &.linkIcon__isIconFirst {
+  }
+
+  &.linkIcon__isIconLast {
+    & svg {
+      order: 2;
+      margin-left: var(--m2XS);
+    }
+    &.linkIcon_content {
+      margin-left: 0;
+      order: 1;
+    }
+  }
 }
 
 .linkIcon_content {
