@@ -665,6 +665,7 @@ Thank you very much`;
                   setContributorEmail(email);
                   showModal(undefined);
                 }}
+                onSubmitDocument={onValidate}
                 mdxContent={contributorFormMdx}
               />
             )}
