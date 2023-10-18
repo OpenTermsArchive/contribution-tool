@@ -49,7 +49,7 @@ label {
   width: 100%;
 
   & + .formfield {
-    margin-top: var(--mM);
+    margin-top: var(--mL);
   }
 
   &.formfield__alignRight {

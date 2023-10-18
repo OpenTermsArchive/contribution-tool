@@ -310,6 +310,19 @@ Thank you very much`;
                     withSwitch={false}
                   />
                 </div>
+                {!executeClientScripts && iframeReady && !isPDF && (
+                  <div className={classNames(s.formInfos, 'text__light', 'mt__2XS')}>
+                    {t('service:pageNotAccurate.desc')}{' '}
+                    <a
+                      className={classNames('')}
+                      onClick={() =>
+                        onPageDeclarationUpdate('update')('executeClientScripts')(true)
+                      }
+                    >
+                      {t('service:pageNotAccurate.cta')}
+                    </a>
+                  </div>
+                )}
               </div>
               <div className={classNames('formfield')}>
                 <label>
@@ -401,15 +414,17 @@ Thank you very much`;
                     <div className="text__light">
                       {t('service:form.significantPart.instructions')}
                     </div>
-                    {selectCssSelectors.map((selected, i) => (
-                      <SelectorButton
-                        className={s.selectionItem}
-                        key={typeof selected === 'string' ? selected : JSON.stringify(selected)}
-                        value={selected}
-                        onInputChange={onChangeCssRule('select', i)}
-                        onRemove={onDeleteCssRule('select', i)}
-                      />
-                    ))}
+                    <div className="mt__XS">
+                      {selectCssSelectors.map((selected, i) => (
+                        <SelectorButton
+                          className={s.selectionItem}
+                          key={typeof selected === 'string' ? selected : JSON.stringify(selected)}
+                          value={selected}
+                          onInputChange={onChangeCssRule('select', i)}
+                          onRemove={onDeleteCssRule('select', i)}
+                        />
+                      ))}
+                    </div>
                     <Button
                       onClick={selectInIframe('select')}
                       disabled={!!iframeSelectionField || !iframeReady}
@@ -438,15 +453,17 @@ Thank you very much`;
                       <div className="text__light">
                         {t('service:form.insignificantPart.instructions')}
                       </div>
-                      {removeCssSelectors.map((removed, i) => (
-                        <SelectorButton
-                          className={s.selectionItem}
-                          key={typeof removed === 'string' ? removed : JSON.stringify(removed)}
-                          value={removed}
-                          onInputChange={onChangeCssRule('remove', i)}
-                          onRemove={onDeleteCssRule('remove', i)}
-                        />
-                      ))}
+                      <div className="mt__XS">
+                        {removeCssSelectors.map((removed, i) => (
+                          <SelectorButton
+                            className={s.selectionItem}
+                            key={typeof removed === 'string' ? removed : JSON.stringify(removed)}
+                            value={removed}
+                            onInputChange={onChangeCssRule('remove', i)}
+                            onRemove={onDeleteCssRule('remove', i)}
+                          />
+                        ))}
+                      </div>
                       <Button
                         onClick={selectInIframe('remove')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -513,10 +530,8 @@ Thank you very much`;
                   </div>
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.executeClientScripts')}</label>
-                    <small className={s.moreinfo}>
-                      {t('service:form.executeClientScripts.more')}
-                    </small>
-                    <div className={classNames('select')}>
+                    <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
+                    <div className={classNames('select', 'mt__XS')}>
                       <input
                         type="checkbox"
                         defaultChecked={!!page?.executeClientScripts}
@@ -532,8 +547,8 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.bypassCookies')}</label>
-                      <small className={s.moreinfo}>{t('service:form.bypassCookies.more')}</small>
-                      <div className={classNames('select')}>
+                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
+                      <div className={classNames('select', 'mt__XS')}>
                         <input
                           type="checkbox"
                           defaultChecked={!!bypassCookies}
@@ -546,17 +561,19 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.hiddenPart')}</label>
-                      <small className={s.moreinfo}>{t('service:form.hiddenPart.more')}</small>
-                      {hiddenCssSelectors.map((hidden, i) => (
-                        <SelectorButton
-                          className={s.selectionItem}
-                          key={hidden}
-                          value={hidden}
-                          onInputChange={onChangeCssRule('hidden', i)}
-                          onRemove={onDeleteCssRule('hidden', i)}
-                          withSwitch={false}
-                        />
-                      ))}
+                      <div className="text__light">{t('service:form.hiddenPart.more')}</div>
+                      <div className="mt__XS">
+                        {hiddenCssSelectors.map((hidden, i) => (
+                          <SelectorButton
+                            className={s.selectionItem}
+                            key={hidden}
+                            value={hidden}
+                            onInputChange={onChangeCssRule('hidden', i)}
+                            onRemove={onDeleteCssRule('hidden', i)}
+                            withSwitch={false}
+                          />
+                        ))}
+                      </div>
                       <Button
                         onClick={selectInIframe('hidden')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -569,8 +586,8 @@ Thank you very much`;
                   )}
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.acceptLanguage')}</label>
-                    <small className={s.moreinfo}>{t('service:form.acceptLanguage.more')}</small>
-                    <div className={classNames('select')}>
+                    <div className="text__light">{t('service:form.acceptLanguage.more')}</div>
+                    <div className={classNames('select', 'mt__XS')}>
                       <SelectorButton
                         key={'acceptLanguage'}
                         value={acceptLanguage}
@@ -598,23 +615,6 @@ Thank you very much`;
                 </>
               )}
             </form>
-          </div>
-
-          <div className={s.formBottom}>
-            {!executeClientScripts && iframeReady && !isPDF && (
-              <div
-                className={classNames(s.formInfos, 'text__light', 'text__error', 'text__center')}
-              >
-                <IconAlert /> {t('service:pageNotAccurate.desc')}
-                <br />
-                <a
-                  className={classNames('text__error')}
-                  onClick={() => onPageDeclarationUpdate('update')('executeClientScripts')(true)}
-                >
-                  {t('service:pageNotAccurate.cta')}
-                </a>
-              </div>
-            )}
           </div>
           <nav className={s.formActions}>
             <Button disabled={versionDisabled} type="secondary" onClick={onVerifyVersion}>
