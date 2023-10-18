@@ -31,7 +31,7 @@
   "form.significantPart": "Significant part(s)",
   "form.significantPart.cta": "Select",
   "form.significantPart.instructions": "These are the parts of the documents that need to be recorded.",
-  "form.url": "Fetch URL",
+  "form.url": "Location",
   "form.acceptLanguage": "Force language (fr, es, ...)",
   "form.acceptLanguage.more": "If the language of the document is not the one you were expecting.",
   "form.bypassCookies": "Bypass cookies",
