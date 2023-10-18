@@ -398,6 +398,9 @@ Thank you very much`;
                         Help
                       </LinkIcon>
                     </label>
+                    <div className="text__light">
+                      {t('service:form.significantPart.instructions')}
+                    </div>
                     {selectCssSelectors.map((selected, i) => (
                       <SelectorButton
                         className={s.selectionItem}
@@ -432,7 +435,9 @@ Thank you very much`;
                           Help
                         </LinkIcon>
                       </label>
-
+                      <div className="text__light">
+                        {t('service:form.insignificantPart.instructions')}
+                      </div>
                       {removeCssSelectors.map((removed, i) => (
                         <SelectorButton
                           className={s.selectionItem}
