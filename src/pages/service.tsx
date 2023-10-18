@@ -30,7 +30,6 @@ import ContributorForm, { useContributor } from 'modules/Common/data-components/
 import useDocumentDeclaration from 'modules/Common/services/useDocumentDeclaration';
 import useConfigDeclaration from 'modules/Common/hooks/useConfigDeclaration';
 import { loadMdxFile, MdxPageProps } from 'modules/I18n/hoc/withMdx';
-import Trans from 'next-translate/Trans';
 
 const EMAIL_SUPPORT = 'contribute@opentermsarchive.org';
 
