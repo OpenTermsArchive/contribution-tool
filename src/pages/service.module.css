@@ -97,9 +97,10 @@
 
 .formActions {
   border-top: 1px solid var(--colorBlack400);
-  padding: var(--mXS);
+  padding: var(--mM);
   display: flex;
   justify-content: space-between;
+  gap: var(--mM);
 }
 
 .contribute {
