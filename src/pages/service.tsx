@@ -623,6 +623,14 @@ Thank you very much`;
                       )}
                     </div>
                   </div>
+                  <div className={classNames('formfield', s.expert)}>
+                    <label>{t('service:form.label.snapshot')}</label>
+                    {data?.snapshotUrl && (
+                      <Button href={data?.snapshotUrl} target="_blank" type="secondary" size="sm">
+                        {t('service:show-snapshot')}
+                      </Button>
+                    )}
+                  </div>
                 </>
               )}
             </form>
@@ -639,13 +647,6 @@ Thank you very much`;
         </div>
       </Drawer>
       <div className={s.main}>
-        <div className={s.linkToSnapshot}>
-          {data?.snapshotUrl && (
-            <a href={data?.snapshotUrl} target="_blank">
-              {t('service:show-snapshot')}
-            </a>
-          )}
-        </div>
         {isLoadingIframe && (
           <div className={s.fullPage}>
             <h1>{t('service:loading.title')}</h1>

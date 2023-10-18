@@ -23,6 +23,7 @@
   "form.insignificantPart.cta": "Sélectionner",
   "form.insignificantPart.instructions": "Si besoin, supprimez les parties qui ne doivent pas être enregistrées.",
   "form.label.json": "JSON",
+  "form.label.snapshot": "Snapshot",
   "form.select": "Sélectionner...",
   "form.serviceName": "Nom du service",
   "form.executeClientScripts": "Exécuter les scripts de la page",
