@@ -94,15 +94,11 @@
   display: flex;
   justify-content: space-between;
   gap: var(--mM);
+  background-color: var(--colorBlack200);
 }
 
 .contribute {
-  font-size: 0.8em;
-  text-align: right;
-  padding: 0 var(--pXS) var(--pXS);
-  & a {
-    display: block;
-  }
+  border-top: 1px solid var(--colorBlack400);
 }
 
 .wrapper {

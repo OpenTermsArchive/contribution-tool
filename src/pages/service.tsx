@@ -311,10 +311,9 @@ Thank you very much`;
                   />
                 </div>
                 {!executeClientScripts && iframeReady && !isPDF && (
-                  <div className={classNames(s.formInfos, 'text__light', 'mt__2XS')}>
-                    {t('service:pageNotAccurate.desc')}{' '}
+                  <div className={classNames(s.formInfos, 'text__light', 'mt__XS')}>
+                    <IconAlert /> {t('service:pageNotAccurate.desc')}{' '}
                     <a
-                      className={classNames('')}
                       onClick={() =>
                         onPageDeclarationUpdate('update')('executeClientScripts')(true)
                       }
@@ -476,7 +475,19 @@ Thank you very much`;
                   )}
                 </>
               )}
-
+              <div className={classNames(s.contribute, 'formfield')}>
+                {contributorEmail && (
+                  <>
+                    <label>{t('service:contributor.info')}</label>
+                    <div className="text__light">{contributorEmail}</div>
+                  </>
+                )}
+                <div className="mt__XS">
+                  <Button onClick={() => showModal('contributor')} type="secondary" size="sm">
+                    {t('service:contributor.change')}
+                  </Button>
+                </div>
+              </div>
               <nav key="expertMode" className={classNames('formfield', s.toggleExpertMode)}>
                 <a onClick={() => onConfigInputChange('expertMode')(!expertMode)}>
                   {t('service:expertMode')}
@@ -530,8 +541,10 @@ Thank you very much`;
                   </div>
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.executeClientScripts')}</label>
-                    <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
-                    <div className={classNames('select', 'mt__XS')}>
+                    <small className={s.moreinfo}>
+                      {t('service:form.executeClientScripts.more')}
+                    </small>
+                    <div className={classNames('select')}>
                       <input
                         type="checkbox"
                         defaultChecked={!!page?.executeClientScripts}
@@ -547,8 +560,8 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.bypassCookies')}</label>
-                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
-                      <div className={classNames('select', 'mt__XS')}>
+                      <small className={s.moreinfo}>{t('service:form.bypassCookies.more')}</small>
+                      <div className={classNames('select')}>
                         <input
                           type="checkbox"
                           defaultChecked={!!bypassCookies}
@@ -561,19 +574,17 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.hiddenPart')}</label>
-                      <div className="text__light">{t('service:form.hiddenPart.more')}</div>
-                      <div className="mt__XS">
-                        {hiddenCssSelectors.map((hidden, i) => (
-                          <SelectorButton
-                            className={s.selectionItem}
-                            key={hidden}
-                            value={hidden}
-                            onInputChange={onChangeCssRule('hidden', i)}
-                            onRemove={onDeleteCssRule('hidden', i)}
-                            withSwitch={false}
-                          />
-                        ))}
-                      </div>
+                      <small className={s.moreinfo}>{t('service:form.hiddenPart.more')}</small>
+                      {hiddenCssSelectors.map((hidden, i) => (
+                        <SelectorButton
+                          className={s.selectionItem}
+                          key={hidden}
+                          value={hidden}
+                          onInputChange={onChangeCssRule('hidden', i)}
+                          onRemove={onDeleteCssRule('hidden', i)}
+                          withSwitch={false}
+                        />
+                      ))}
                       <Button
                         onClick={selectInIframe('hidden')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -586,8 +597,8 @@ Thank you very much`;
                   )}
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.acceptLanguage')}</label>
-                    <div className="text__light">{t('service:form.acceptLanguage.more')}</div>
-                    <div className={classNames('select', 'mt__XS')}>
+                    <small className={s.moreinfo}>{t('service:form.acceptLanguage.more')}</small>
+                    <div className={classNames('select')}>
                       <SelectorButton
                         key={'acceptLanguage'}
                         value={acceptLanguage}
@@ -616,6 +627,7 @@ Thank you very much`;
               )}
             </form>
           </div>
+
           <nav className={s.formActions}>
             <Button disabled={versionDisabled} type="secondary" onClick={onVerifyVersion}>
               {t('service:verify-version')}
@@ -624,18 +636,6 @@ Thank you very much`;
               {t('service:submit')}
             </Button>
           </nav>
-          <div className={s.contribute}>
-            {contributorEmail && (
-              <Trans
-                i18nKey="service:contributor.info"
-                components={{ strong: <strong /> }}
-                values={{ email: contributorEmail }}
-              />
-            )}
-            <div>
-              <a onClick={() => showModal('contributor')}>{t('service:contributor.change')}</a>
-            </div>
-          </div>
         </div>
       </Drawer>
       <div className={s.main}>
