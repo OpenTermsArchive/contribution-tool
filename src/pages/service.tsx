@@ -503,48 +503,53 @@ Thank you very much`;
                 <>
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.links-snapshots-versions')}</label>
-                    <small className={s.expertButtons}>
-                      <a
-                        target="_blank"
-                        href={`https://github.com/${destination}/blob/main/declarations/${encodeURIComponent(
-                          declaration.name
-                        )}.json`}
-                      >
-                        Current JSON
-                      </a>
-
-                      <a
-                        target="_blank"
-                        href={`${versionsRepository}/blob/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.md`}
-                      >
-                        Latest version
-                      </a>
-                      <a
-                        target="_blank"
-                        href={`${versionsRepository}/commits/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.md`}
-                      >
-                        All versions
-                      </a>
-                      <a
-                        target="_blank"
-                        href={`${snapshotsRepository}/blob/main/${encodeURIComponent(
-                          declaration.name
-                        )}/${encodeURIComponent(documentType)}.html`}
-                      >
-                        Latest snapshot
-                      </a>
-                    </small>
+                    <ul className={classNames(s.expertButtons, 'text__light')}>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`https://github.com/${destination}/blob/main/declarations/${encodeURIComponent(
+                            declaration.name
+                          )}.json`}
+                        >
+                          Current JSON
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${versionsRepository}/blob/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.md`}
+                        >
+                          Latest version
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${versionsRepository}/commits/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.md`}
+                        >
+                          All versions
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          target="_blank"
+                          href={`${snapshotsRepository}/blob/main/${encodeURIComponent(
+                            declaration.name
+                          )}/${encodeURIComponent(documentType)}.html`}
+                        >
+                          Latest snapshot
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.executeClientScripts')}</label>
-                    <small className={s.moreinfo}>
-                      {t('service:form.executeClientScripts.more')}
-                    </small>
-                    <div className={classNames('select')}>
+                    <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
+                    <div className={classNames('select', 'mt__XS')}>
                       <input
                         type="checkbox"
                         defaultChecked={!!page?.executeClientScripts}
@@ -560,8 +565,8 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.bypassCookies')}</label>
-                      <small className={s.moreinfo}>{t('service:form.bypassCookies.more')}</small>
-                      <div className={classNames('select')}>
+                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
+                      <div className={classNames('select', 'mt__XS')}>
                         <input
                           type="checkbox"
                           defaultChecked={!!bypassCookies}
@@ -574,17 +579,19 @@ Thank you very much`;
                   {!isPDF && (
                     <div className={classNames('formfield')}>
                       <label>{t('service:form.hiddenPart')}</label>
-                      <small className={s.moreinfo}>{t('service:form.hiddenPart.more')}</small>
-                      {hiddenCssSelectors.map((hidden, i) => (
-                        <SelectorButton
-                          className={s.selectionItem}
-                          key={hidden}
-                          value={hidden}
-                          onInputChange={onChangeCssRule('hidden', i)}
-                          onRemove={onDeleteCssRule('hidden', i)}
-                          withSwitch={false}
-                        />
-                      ))}
+                      <div className="text__light">{t('service:form.hiddenPart.more')}</div>
+                      <div className="mt__XS">
+                        {hiddenCssSelectors.map((hidden, i) => (
+                          <SelectorButton
+                            className={s.selectionItem}
+                            key={hidden}
+                            value={hidden}
+                            onInputChange={onChangeCssRule('hidden', i)}
+                            onRemove={onDeleteCssRule('hidden', i)}
+                            withSwitch={false}
+                          />
+                        ))}
+                      </div>
                       <Button
                         onClick={selectInIframe('hidden')}
                         disabled={!!iframeSelectionField || !iframeReady}
@@ -597,8 +604,8 @@ Thank you very much`;
                   )}
                   <div className={classNames('formfield')}>
                     <label>{t('service:form.acceptLanguage')}</label>
-                    <small className={s.moreinfo}>{t('service:form.acceptLanguage.more')}</small>
-                    <div className={classNames('select')}>
+                    <div className="text__light">{t('service:form.acceptLanguage.more')}</div>
+                    <div className={classNames('select', 'mt__XS')}>
                       <SelectorButton
                         key={'acceptLanguage'}
                         value={acceptLanguage}
