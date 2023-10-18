@@ -475,19 +475,6 @@ Thank you very much`;
                   )}
                 </>
               )}
-              <div className={classNames(s.contribute, 'formfield')}>
-                {contributorEmail && (
-                  <>
-                    <label>{t('service:contributor.info')}</label>
-                    <div className="text__light">{contributorEmail}</div>
-                  </>
-                )}
-                <div className="mt__XS">
-                  <Button onClick={() => showModal('contributor')} type="secondary" size="sm">
-                    {t('service:contributor.change')}
-                  </Button>
-                </div>
-              </div>
               <nav key="expertMode" className={classNames('formfield', s.toggleExpertMode)}>
                 <a onClick={() => onConfigInputChange('expertMode')(!expertMode)}>
                   {t('service:expertMode')}
@@ -647,7 +634,7 @@ Thank you very much`;
             <Button disabled={versionDisabled} type="secondary" onClick={onVerifyVersion}>
               {t('service:verify-version')}
             </Button>
-            <Button disabled={submitDisabled || loading} onClick={onValidate}>
+            <Button disabled={submitDisabled || loading} onClick={() => showModal('contributor')}>
               {t('service:submit')}
             </Button>
           </nav>
