@@ -12,6 +12,7 @@ type LinkIconProps = {
   small?: boolean;
   direction?: 'right' | 'left';
   iconName?: keyof typeof FeatherIcons;
+  iconPosition?: 'first' | 'last';
 } & LinkProps;
 
 const LinkIcon: React.FC<LinkIconProps & React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
@@ -21,6 +22,7 @@ const LinkIcon: React.FC<LinkIconProps & React.AnchorHTMLAttributes<HTMLAnchorEl
   direction = 'right',
   className,
   iconName = 'FiArrowRight',
+  iconPosition = 'first',
   ...allProps
 }) => {
   const icon = iconName
@@ -37,6 +39,7 @@ const LinkIcon: React.FC<LinkIconProps & React.AnchorHTMLAttributes<HTMLAnchorEl
           s.linkIcon,
           small ? s.linkIcon__isSmall : null,
           direction === 'left' ? s.linkIcon__isLeft : null,
+          iconPosition === 'first' ? s.linkIcon__isIconFirst : s.linkIcon__isIconLast,
           className
         )}
         {...props}
