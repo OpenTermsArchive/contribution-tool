@@ -38,6 +38,10 @@ label {
   display: block;
   width: 100%;
   margin-bottom: var(--mXS);
+
+  & > input[type='checkbox'] {
+    margin-left: var(--mXS);
+  }
 }
 
 .label__inline {

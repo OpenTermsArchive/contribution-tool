@@ -533,33 +533,35 @@ Thank you very much`;
                     </ul>
                   </div>
                   <div className={classNames('formfield')}>
-                    <label>{t('service:form.executeClientScripts')}</label>
-                    <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
                     <div className={classNames('select', 'mt__XS')}>
-                      <input
-                        type="checkbox"
-                        defaultChecked={!!page?.executeClientScripts}
-                        onChange={(event) =>
-                          onPageDeclarationUpdate('update')('executeClientScripts')(
-                            event.target.checked
-                          )
-                        }
-                        disabled={isPDF}
-                      />
+                      <label for="executeClientScripts">{t('service:form.executeClientScripts')}
+                        <input
+                          id="executeClientScripts"
+                          type="checkbox"
+                          defaultChecked={!!page?.executeClientScripts}
+                          onChange={(event) =>
+                            onPageDeclarationUpdate('update')('executeClientScripts')(
+                              event.target.checked
+                            )
+                          }
+                          disabled={isPDF}
+                        />
+                      </label>
+                      <div className="text__light">{t('service:form.executeClientScripts.more')}</div>
                     </div>
                   </div>
                   {!isPDF && (
                     <div className={classNames('formfield')}>
-                      <label>{t('service:form.bypassCookies')}</label>
-                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
-                      <div className={classNames('select', 'mt__XS')}>
+                      <label for="bypassCookies" >{t('service:form.bypassCookies')}
                         <input
+                          id="bypassCookies"
                           type="checkbox"
                           defaultChecked={!!bypassCookies}
                           onChange={() => onConfigInputChange('bypassCookies')(!bypassCookies)}
                           disabled={isPDF}
                         />
-                      </div>
+                      </label>
+                      <div className="text__light">{t('service:form.bypassCookies.more')}</div>
                     </div>
                   )}
                   {!isPDF && (
