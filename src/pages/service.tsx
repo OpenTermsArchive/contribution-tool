@@ -534,7 +534,7 @@ Thank you very much`;
                   </div>
                   <div className={classNames('formfield')}>
                     <div className={classNames('select', 'mt__XS')}>
-                      <label for="executeClientScripts">{t('service:form.executeClientScripts')}
+                      <label htmlFor="executeClientScripts">{t('service:form.executeClientScripts')}
                         <input
                           id="executeClientScripts"
                           type="checkbox"
@@ -552,7 +552,7 @@ Thank you very much`;
                   </div>
                   {!isPDF && (
                     <div className={classNames('formfield')}>
-                      <label for="bypassCookies" >{t('service:form.bypassCookies')}
+                      <label htmlFor="bypassCookies" >{t('service:form.bypassCookies')}
                         <input
                           id="bypassCookies"
                           type="checkbox"
