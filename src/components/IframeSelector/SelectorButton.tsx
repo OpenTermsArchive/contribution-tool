@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'modules/Common/components/Button';
 import type { OTASelector, OTARangeSelector } from 'modules/Common/services/open-terms-archive';
 import { useDebounce, useLocalStorage, usePrevious } from 'react-use';
-import { FiTrash2 as RemoveIcon, FiRepeat as SwitchIcon } from 'react-icons/fi';
+import { FiX as RemoveIcon, FiRepeat as SwitchIcon } from 'react-icons/fi';
 import s from './SelectorButton.module.css';
 import classNames from 'classnames';
 
