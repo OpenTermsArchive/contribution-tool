@@ -289,7 +289,19 @@ Thank you very much`;
           <div className={s.formWrapper}>
             <form>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.url')}</label>
+                <label>
+                  {t('service:form.url')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms#fetch"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <div className={classNames('select')}>
                   <SelectorButton
                     key={'fetch'}
@@ -300,7 +312,19 @@ Thank you very much`;
                 </div>
               </div>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.documentType')}</label>
+                <label>
+                  {t('service:form.documentType')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms/#terms-type"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <div className={classNames('select')}>
                   <select
                     onChange={(event) =>
@@ -338,7 +362,19 @@ Thank you very much`;
                 </div>
               </div>
               <div className={classNames('formfield')}>
-                <label>{t('service:form.serviceName')}</label>
+                <label>
+                  {t('service:form.serviceName')}
+                  <LinkIcon
+                    href="https://docs.opentermsarchive.org/contributing-terms/#service-name"
+                    small={true}
+                    iconName="FiHelpCircle"
+                    iconPosition="last"
+                    className="float__right"
+                    target="_blank"
+                  >
+                    Help
+                  </LinkIcon>
+                </label>
                 <SelectorButton
                   key={'name'}
                   value={declaration.name}
@@ -349,7 +385,19 @@ Thank you very much`;
               {!isPDF && (
                 <>
                   <div key="significantPart" className={classNames('formfield')}>
-                    <label>{t('service:form.significantPart')}</label>
+                    <label>
+                      {t('service:form.significantPart')}
+                      <LinkIcon
+                        href="https://docs.opentermsarchive.org/contributing-terms/#select"
+                        small={true}
+                        iconName="FiHelpCircle"
+                        iconPosition="last"
+                        className="float__right"
+                        target="_blank"
+                      >
+                        Help
+                      </LinkIcon>
+                    </label>
                     {selectCssSelectors.map((selected, i) => (
                       <SelectorButton
                         className={s.selectionItem}
@@ -371,7 +419,19 @@ Thank you very much`;
 
                   {(selectCssSelectors?.length > 0 || removeCssSelectors?.length > 0) && (
                     <div key="insignificantPart" className={classNames('formfield')}>
-                      <label>{t('service:form.insignificantPart')}</label>
+                      <label>
+                        {t('service:form.insignificantPart')}
+                        <LinkIcon
+                          href="https://docs.opentermsarchive.org/contributing-terms/#remove"
+                          small={true}
+                          iconName="FiHelpCircle"
+                          iconPosition="last"
+                          className="float__right"
+                          target="_blank"
+                        >
+                          Help
+                        </LinkIcon>
+                      </label>
 
                       {removeCssSelectors.map((removed, i) => (
                         <SelectorButton
