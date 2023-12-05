@@ -23,10 +23,15 @@ const HomePage = ({ mdxContent }: WithMdxResult) => {
   });
 
   const onSubmit: SearchProps['onSearchSubmit'] = async (url) => {
-    try {
-      router.push(`/service?${commonUrlParams}&url=${encodeURIComponent(url)}`);
-    } catch (e) {
-      console.error(e);
+    if ((url.toLowerCase().includes("localhost")) || (url.toLowerCase().includes("127.0.0.1"))) {
+        alert("Wrong URL! Please check the URL and enter it correctly.");
+        console.error("Wrong URL");
+    } else {
+        try {
+                router.push(`/service?${commonUrlParams}&url=${encodeURIComponent(url)}`);
+        } catch (e) {
+                console.error(e);
+        }
     }
   };
 
