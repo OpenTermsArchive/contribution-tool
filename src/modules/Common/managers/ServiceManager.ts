@@ -216,13 +216,13 @@ _This suggestion has been created through the [Contribution Tool](https://github
 
     const validUntilCheckboxes = !lastFailingDate
       ? [
-          '- [ ] **`validUntil` date is correctly input**:',
-          `  - Check the [latest versions](${this.getVersionsURL()})`,
-          '  - Find the **first occurence** of the problematic change',
-          '  - Note the **creation date** of this issue (inspect `x days ago` with developer tools and copy `datetime`)',
-          `  - Find the **latest snapshot** from the [list of snapshots](${this.getSnapshotsURL()}) strictly anterior to this date`,
-          '  - Copy the **creation date** of this snapshot (inspect `x days ago` with developer tools and copy `datetime`)',
-          `  - Replace the \`to-be-determined\` date in history file directly from GitHub or check out branch \`${branchName}\` and do so on your local`,
+          '- [ ] **`validUntil` date is correctly input** in the history file. To get that date, you can use the following method. In all cases where a date is to be obtained from the GitHub user interface, you can obtain the exact datetime by hovering your cursor over the date or using the developer tools to copy its `datetime` attribute.',
+          '  1. Find the date at which the problem was first encountered:',
+          '    - If there is one, find the first date at which an issue was opened claiming that the terms can not be tracked anymore.',
+          `    - If there is no issue, or if the version is wrong even though the terms can be extracted, [find the first version](${this.getVersionsURL()}) with wrong data and obtain its date.`,
+          `    - If the document can not be fetched anymore, [find the latest snapshot](${this.getSnapshotsURL()}).`,
+          `  2. Find the most recent snapshot that is strictly anterior to this date from the [snapshots database](${this.getSnapshotsURL()}).`,
+          '  3. Set the creation date of this snapshot as the `validUntil` date in the [history file](./files).',
         ]
       : [];
 
