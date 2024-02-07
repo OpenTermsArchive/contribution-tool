@@ -1,4 +1,4 @@
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+﻿import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import {
   GetContributeServiceResponse,
   PostContributeServiceResponse,
@@ -105,6 +105,14 @@ const ServicePage = ({
     )
   )}`;
 
+  if ((apiUrlParams.toLowerCase().includes("localhost")) || (apiUrlParams.toLowerCase().includes("127.0.0.1"))) {
+        alert("Wrong URL! Please check the URL and enter it correctly.");
+        console.error("Wrong URL");
+	apiUrlParams = apiUrlParams.replace("localhost", "");
+	apiUrlParams = apiUrlParams.replace("127.0.0.1", "");
+  }
+
+
   if (acceptLanguage) {
     apiUrlParams = `${apiUrlParams}&acceptLanguage=${encodeURIComponent(acceptLanguage)}`;
   }
@@ -195,7 +203,7 @@ const ServicePage = ({
       });
 
       if (!url) {
-        const subject = 'Here is a new service to track in Open Terms Archive';
+        const subject = 'Here is a new service to track in Open Terms Archive';
         const body = `Hi,
 
   I need you to track "${documentType}" of "${declaration?.name}" for me.
