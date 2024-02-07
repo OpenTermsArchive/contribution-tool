@@ -5,4 +5,4 @@
 
   roles:
     - infra/common
-    - role: gepaplexx.unattended_upgrades
+    - role: racqspace.unattended_upgrades
