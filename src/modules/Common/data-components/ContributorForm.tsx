@@ -63,13 +63,11 @@ const ContributorForm: React.FC<ContributorFormProps> = ({
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (onSubmitDocument) {
-      onSubmitDocument();
-    } else {
-      const { email, name } = (event.target as HTMLFormElement).elements as FormElements;
+    const { email, name } = (event.target as HTMLFormElement).elements as FormElements;
 
-      onChangeContributor({ email: email.value, name: name.value });
-    }
+    onChangeContributor({ email: email.value, name: name.value });
+
+    onSubmitDocument(name.value, email.value);
   };
 
   return (

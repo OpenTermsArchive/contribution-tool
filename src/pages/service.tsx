@@ -53,9 +53,7 @@ const ServicePage = ({
     false
   );
   const {
-    email: contributorEmail,
     setEmail: setContributorEmail,
-    name: contributorName,
     setName: setContributorName,
   } = useContributor();
 
@@ -179,8 +177,9 @@ const ServicePage = ({
 
   const onVerifyVersion = async () => showModal('version');
 
-  const onValidate = async () => {
+  const onValidate = async (name: string, email: string) => {
     toggleLoading(true);
+
     try {
       const {
         data: { url, message },
@@ -189,8 +188,8 @@ const ServicePage = ({
         json: declaration,
         name: declaration?.name,
         documentType: documentType,
-        contributorName,
-        contributorEmail,
+        contributorName: name,
+        contributorEmail: email,
         url: `${window.location.href}&expertMode=true`,
       });
 
