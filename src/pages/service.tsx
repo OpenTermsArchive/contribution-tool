@@ -53,9 +53,7 @@ const ServicePage = ({
     false
   );
   const {
-    email: contributorEmail,
     setEmail: setContributorEmail,
-    name: contributorName,
     setName: setContributorName,
   } = useContributor();
 
