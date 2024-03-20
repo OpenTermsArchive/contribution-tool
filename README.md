@@ -1,6 +1,10 @@
-# OpenTermsArchive Contribution Tool
+# Open Terms Archive Contribution Tool Prototype
 
-This is the repository for `contribute.opentermsarchive.org`, a website that helps user create service declarations for the [Open Terms Archive](https://github.com/OpenTermsArchive/engine) project.
+This is the repository for `contribute.opentermsarchive.org`, the proof of concept of a tool that helps users create declarations for [Open Terms Archive](https://opentermsarchive.org) collections.
+
+## Status
+
+This codebase is untested and should be considered as a proof of concept only, usable by trained contributors for specific cases where reliability is not critical. **It is not safe to deploy in production.**
 
 ## Introduction
 
@@ -88,7 +92,3 @@ See our [contributing guide](CONTRIBUTING.md).
 
 The code for this software is distributed under the European Union Public Licence (EUPL) v1.2.
 Contact the author if you have any specific need or question regarding licensing.
-
-```
-
-```
