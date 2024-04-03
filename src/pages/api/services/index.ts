@@ -13,6 +13,27 @@ import fs from 'fs';
 import getConfig from 'next/config';
 import { getLatestFailDate } from 'modules/Github/api';
 
+
+function isPrivateAddress(checkUrl) {
+  var ipv4PrivatePattern = /^(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})$/;
+  var ipv6PrivatePattern = /^(?:[fF][cCdD]|[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2}|(?:2001:)?[dD][bB][aA][8-9]::|(?:2001:)?[dD][bB][cCdD]:|(?:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?::)?[0-9a-fA-F]{1,4}:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?)$/;
+
+  // Extract the hostname from the URL
+  let hostname;
+  try {
+    const urlObj = new URL(checkUrl);
+    hostname = urlObj.hostname;
+  } catch (err) {
+    return false;
+  }
+
+  if (ipv4PrivatePattern.test(hostname) || ipv6PrivatePattern.test(hostname) || hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
+    return true;
+  } else { 
+    return false;
+  }
+}
+
 const { serverRuntimeConfig } = getConfig();
 
 const get =
@@ -30,6 +51,20 @@ const get =
           error: 'Sorry but multipage is not supported yet',
         });
         return res;
+      }
+
+      if (json.hasOwnProperty("fetch")) {
+        const url = json.fetch;
+        if (isPrivateAddress(url)) {
+          res.statusCode = HttpStatusCode.OK;
+          res.json({
+            status: 'ko',
+            message: 'Could not download url',
+            url: '',
+            error: "FetchDocumentError: request to " + url + " failed, reason: URL is a private address",
+          });
+          return res;
+        }
       }
 
       const downloadResult = await downloadUrl(json, {
