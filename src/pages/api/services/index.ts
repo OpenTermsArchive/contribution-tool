@@ -14,24 +14,28 @@ import getConfig from 'next/config';
 import { getLatestFailDate } from 'modules/Github/api';
 
 
-function isPrivateAddress(checkUrl) {
-  var ipv4PrivatePattern = /^(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})$/;
-  var ipv6PrivatePattern = /^(?:[fF][cCdD]|[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2}|(?:2001:)?[dD][bB][aA][8-9]::|(?:2001:)?[dD][bB][cCdD]:|(?:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?::)?[0-9a-fA-F]{1,4}:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?)$/;
+function isPrivateAddress(checkUrl: string): boolean {
+   // The ipv4PrivatePattern matches private IPv4 addresses. These ranges are coming from RFC 1918, which defines private IPv4 address ranges:
+  // - 10.0.0.0 - 10.255.255.255
+  // - 172.16.0.0 - 172.31.255.255
+  // - 192.168.0.0 - 192.168.255.255
+  const ipv4PrivatePattern: RegExp = /^(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})$/;
+  // The ipv6PrivatePattern matches private IPv6 addresses. These ranges are coming from RFC 4193, which defines Unique Local IPv6 Unicast Addresses:
+  // - fc00::/7
+  // - fd00::/8
+  // Additionally, it includes the loopback and unspecified addresses (::1 and ::) and the link-local addresses (fe80::/10).
+  const ipv6PrivatePattern: RegExp = /^(?:[fF][cCdD]|[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2}|(?:2001:)?[dD][bB][aA][8-9]::|(?:2001:)?[dD][bB][cCdD]:|(?:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?::)?[0-9a-fA-F]{1,4}:(?:[fF]{3}(?::[0-9a-fA-F]{1,4}){1,2})?)$/;
 
   // Extract the hostname from the URL
-  let hostname;
+  let hostname: string;
   try {
-    const urlObj = new URL(checkUrl);
+    const urlObj: URL = new URL(checkUrl);
     hostname = urlObj.hostname;
   } catch (err) {
     return false;
   }
 
-  if (ipv4PrivatePattern.test(hostname) || ipv6PrivatePattern.test(hostname) || hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
-    return true;
-  } else { 
-    return false;
-  }
+  return (ipv4PrivatePattern.test(hostname) || ipv6PrivatePattern.test(hostname) || hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "0.0.0.0");
 }
 
 const { serverRuntimeConfig } = getConfig();
@@ -61,7 +65,7 @@ const get =
             status: 'ko',
             message: 'Could not download url',
             url: '',
-            error: "FetchDocumentError: request to " + url + " failed, reason: URL is a private address",
+            error: "URL seems to be a private address and has been blocked"
           });
           return res;
         }
