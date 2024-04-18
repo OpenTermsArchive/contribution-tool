@@ -27,11 +27,7 @@ function isPrivateAddress(checkUrl) {
     return false;
   }
 
-  if (ipv4PrivatePattern.test(hostname) || ipv6PrivatePattern.test(hostname) || hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
-    return true;
-  } else { 
-    return false;
-  }
+return (ipv4PrivatePattern.test(hostname) || ipv6PrivatePattern.test(hostname) || hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "0.0.0.0");
 }
 
 const { serverRuntimeConfig } = getConfig();
