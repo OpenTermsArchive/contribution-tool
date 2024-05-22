@@ -6,10 +6,24 @@ import {
   getFileContent,
   getDataFromCommit,
 } from 'modules/Github/api';
+import {
+  getProjects, 
+  createProject, 
+  deleteProject, 
+  createBranch, 
+  commitFile, 
+  updateFile, 
+  createPullRequest,
+  getFileContentRaw,
+  getCommitInfo,
+  getProjectId,
+  getModifiedFilesInCommit
+} from 'modules/Gitlab/api';
 import snakeCase from 'lodash/fp/snakeCase';
 import latinize from 'latinize';
 import { OTAJson } from 'modules/Common/services/open-terms-archive';
 import getConfig from 'next/config';
+
 const { publicRuntimeConfig } = getConfig() || {};
 
 const authorizedOrganizations = ['OpenTermsArchive', 'ambanum', 'iroco-co'];
@@ -102,6 +116,13 @@ export default class ServiceManager {
       return this.addService({ json, url, localUrl });
     }
 
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      return this.updateService({
+        json,
+        url,
+        localUrl,
+      });
+    } else {
     try {
       const { lastFailingDate, issueNumber } = await getLatestFailDate({
         ...this.commonParams,
@@ -122,6 +143,7 @@ export default class ServiceManager {
         localUrl,
       });
     }
+  }
   }
 
   public async addService({ json, url, localUrl }: { json: any; url: string; localUrl: string }) {
@@ -153,24 +175,46 @@ Thanks to your work and attention, Open Terms Archive will ensure that high qual
 
 - - -
 
-_This suggestion has been created through the [Contribution Tool](https://github.com/OpenTermsArchive/contribution-tool/), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
-    try {
-      return await createDocumentAddPullRequest({
-        ...this.commonParams,
-        targetBranch: 'main',
-        newBranch: branchName,
-        title: prTitle,
-        message: prTitle,
-        content: json,
-        author: this.author,
-        filePath: this.declarationFilePath,
-        body,
-      });
-    } catch (e: any) {
-      if (e?.response?.data?.message === 'Reference already exists') {
-        const updateBody = `### [🔎 Inspect the updated declaration suggestion](${url})
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      return await (async () => {
+        let fileContent;
+        // Create a new branch
+        await createBranch(branchName as string, 'main');
+        fileContent = JSON.stringify(json, undefined, 2);
+        const committedFile = await commitFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+        if (committedFile.hasOwnProperty("message")) {
+          if (committedFile.message == 'A file with this name already exists') {
+            const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
+            const jsonExistingContent = JSON.parse(existingContent);
+            jsonExistingContent.documents[this.type] = json.documents[this.type];
+            fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
+            await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+          }
+        }
+        // Create a pull request
+        const pullRequest = await createPullRequest(branchName as string, 'main', prTitle as string, body as string);
+        pullRequest.html_url = pullRequest.web_url;
+        return pullRequest;
+      }) ();
+    } else {
+      try {
+        return await createDocumentAddPullRequest({
+          ...this.commonParams,
+          targetBranch: 'main',
+          newBranch: branchName,
+          title: prTitle,
+          message: prTitle,
+          content: json,
+          author: this.author,
+          filePath: this.declarationFilePath,
+          body,
+        });
+      } catch (e: any) {
+        if (e?.response?.data?.message === 'Reference already exists') {
+          const updateBody = `### [🔎 Inspect the updated declaration suggestion](${url})
 
 A new suggestion has been made, voiding the previous ones. As a human reviewer, here are the things you should check:
 
@@ -178,23 +222,25 @@ ${checkBoxes.join('\n')}
 
 - - -
 
-_This suggestion has been created through the [Contribution Tool](https://github.com/OpenTermsArchive/contribution-tool/), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
-        // a branch already exists wit this name, add a commit to it
-        return await updateDocumentsInBranch({
-          ...this.commonParams,
-          branch: branchName,
-          targetBranch: 'main',
-          content: json,
-          filePath: this.declarationFilePath,
-          message: `Update ${json.name} ${this.type} declaration`,
-          title: prTitle,
-          author: this.author,
-          body: updateBody,
-        });
+          // a branch already exists wit this name, add a commit to it
+          return await updateDocumentsInBranch({
+            ...this.commonParams,
+            branch: branchName,
+            targetBranch: 'main',
+            content: json,
+            filePath: this.declarationFilePath,
+            message: `Update ${json.name} ${this.type} declaration`,
+            title: prTitle,
+            author: this.author,
+            body: updateBody,
+          });
+        }
+        throw e;
       }
-      throw e;
     }
+
   }
 
   public async updateService({
@@ -214,8 +260,10 @@ _This suggestion has been created through the [Contribution Tool](https://github
     const branchName = snakeCase(prTitle);
     const hasSelector = !!json?.documents[this.type]?.select;
 
-    const validUntilCheckboxes = !lastFailingDate
-      ? [
+    let validUntilCheckboxes: string[] = [];
+    if (process.env.NEXT_PUBLIC_REPO_TYPE != 'GITLAB') {
+      validUntilCheckboxes = !lastFailingDate
+        ? [
           '- [ ] **`validUntil` date is correctly input** in the history file. To get that date, you can use the following method. In all cases where a date is to be obtained from the GitHub user interface, you can obtain the exact datetime by hovering your cursor over the date or using the developer tools to copy its `datetime` attribute.',
           '  1. Find the date at which the problem was first encountered:',
           '    - If there is one, find the first date at which an issue was opened claiming that the terms can not be tracked anymore.',
@@ -223,8 +271,9 @@ _This suggestion has been created through the [Contribution Tool](https://github
           `    - If the document can not be fetched anymore, [find the latest snapshot](${this.getSnapshotsURL()}).`,
           `  2. Find the most recent snapshot that is strictly anterior to this date from the [snapshots database](${this.getSnapshotsURL()}).`,
           '  3. Set the creation date of this snapshot as the `validUntil` date in the [history file](./files).',
-        ]
-      : [];
+          ]
+        : [];
+    }
 
     const checkBoxes = [
       ...(hasSelector ? selectorsCheckboxes : []),
@@ -245,9 +294,26 @@ Thanks to your work and attention, Open Terms Archive will ensure that high qual
 ${issueNumber ? `Fixes #${issueNumber}` : ''}
 - - -
 
-_This update suggestion has been created through the [Contribution Tool](https://github.com/OpenTermsArchive/contribution-tool/), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This update suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      return await (async () => {
+        let fileContent;
+        // Create a new branch
+        await createBranch(branchName as string, 'main');
+        //fileContent = JSON.stringify(json, undefined, 2);
+        const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
+        const jsonExistingContent = JSON.parse(existingContent);
+        jsonExistingContent.documents[this.type] = json.documents[this.type];
+        fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
+        await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+        // Create a pull request
+        const pullRequest = await createPullRequest(branchName as string, 'main', prTitle as string, body as string);
+        pullRequest.html_url = pullRequest.web_url;
+        return pullRequest;
+      }) ();
+    } else {
     try {
       return await createDocumentUpdatePullRequest({
         ...this.commonParams,
@@ -273,7 +339,7 @@ ${checkBoxes.join('\n')}
 
 - - -
 
-_This suggestion has been created through the [Contribution Tool](https://github.com/OpenTermsArchive/contribution-tool/), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
       // a branch already exists wit this name, add a commit to it
@@ -291,6 +357,7 @@ _This suggestion has been created through the [Contribution Tool](https://github
         title: prTitle,
         body: updateBody,
       });
+    }
     }
   }
 
@@ -313,12 +380,19 @@ _This suggestion has been created through the [Contribution Tool](https://github
   }
 
   getDeclarationFiles = async () => {
-    const { content: existingContentString } = await getFileContent({
-      ...this.commonParams,
-      filePath: this.declarationFilePath,
-      branch: 'main',
-    });
-
+    let existingContentString; 
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
+      existingContentString = existingContent;
+    } else {
+      const { content: existingContent } = await getFileContent({
+        ...this.commonParams,
+        filePath: this.declarationFilePath,
+        branch: 'main',
+      });
+      existingContentString = existingContent;
+    }
+    
     if (!existingContentString) {
       return { declaration: null };
     }
@@ -340,21 +414,41 @@ _This suggestion has been created through the [Contribution Tool](https://github
   static getDataFromCommit = async (commitURL: string) => {
     const { pathname } = new URL(commitURL);
 
-    let [repo, commitId] = pathname.replace(/^\//g, '').split('/commit/');
+    let repo, commitId;
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      const urlObj = new URL(commitURL);
+      const pathParts = urlObj.pathname.split('/');
+      repo = pathParts[1] + '/' + pathParts[2];
+      [repo, commitId] = pathname.replace(/^\//g, '').split('/-/commit/');
+    } else {
+       [repo, commitId] = pathname.replace(/^\//g, '').split('/commit/'); 
+    }
     const { githubOrganization, githubRepository } =
       ServiceManager.getOrganizationAndRepository(repo);
 
-    const { commit, files } = await getDataFromCommit({
-      commitId,
-      owner: githubOrganization,
-      repo: githubRepository,
-    });
+    let commit, files;
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      let projectId = await getProjectId(repo);
+      commit = await getCommitInfo(commitId, projectId);
+      files = await getModifiedFilesInCommit(commitId, projectId);
+    } else {
+      ({ commit, files } = await getDataFromCommit({
+        commitId,
+        owner: githubOrganization,
+        repo: githubRepository,
+      }));
+    }
 
     if (!files || files.length === 0) {
       throw new Error(`Commit ${commitURL} could not be retrieved`);
     }
-
-    const filename = files[0].filename.replace(/\.md$/, '');
+    
+    let filename;
+    if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
+      filename = files[0].new_path.replace(/\.md$/, '');
+    } else {
+      filename = files[0].filename.replace(/\.md$/, '');
+    }
     const [service, documentType] = filename.split('/');
 
     return {

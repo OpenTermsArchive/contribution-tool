@@ -179,7 +179,7 @@ const ServicePage = ({
 
   const onValidate = async (name: string, email: string) => {
     toggleLoading(true);
-
+   
     try {
       const {
         data: { url, message },
@@ -194,7 +194,7 @@ const ServicePage = ({
       });
 
       if (!url) {
-        const subject = 'Here is a new service to track in Open Terms Archive';
+        const subject = 'Here is a new service to track in Open Terms Archive';
         const body = `Hi,
 
   I need you to track "${documentType}" of "${declaration?.name}" for me.
@@ -694,8 +694,10 @@ Thank you very much`;
   );
 };
 
-export const getStaticProps = async (props: any) =>
-  JSON.parse(
+export const getStaticProps = async (props: any) => {
+  let filename_repo = process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? "contributor-form-gitlab" : "contributor-form";
+
+  return JSON.parse(
     JSON.stringify({
       props: {
         ...props,
@@ -704,13 +706,14 @@ export const getStaticProps = async (props: any) =>
           {
             load: 'mdx',
             folder: 'parts',
-            filename: 'contributor-form',
+            filename: filename_repo,
           },
           props.locale
         ),
       },
       revalidate: 60 * 5,
     })
-  );
+  )
+};
 
 export default ServicePage;

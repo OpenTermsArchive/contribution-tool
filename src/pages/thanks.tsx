@@ -22,7 +22,7 @@ export default function ThanksPage({ mdxContent }: WithMdxResult) {
   return (
     <Layout title={t('thanks:seo.title')} desc={t('thanks:seo.desc')}>
       {/* Hero */}
-      <Container layout="wide" paddingY={false} dark={true} bgColor="#010613">
+      <Container layout="wide" paddingY={false} dark={true} bgColor="#004694">
         <Container gridCols="12" gridGutters="11" flex={true} paddingX={false}>
           <Hero title={t('thanks:title')}></Hero>
         </Container>
@@ -51,4 +51,10 @@ export default function ThanksPage({ mdxContent }: WithMdxResult) {
     </Layout>
   );
 }
-export const getStaticProps = withMdx({ load: 'mdx', filename: 'thanks', folder: 'static' })();
+
+export const getStaticProps = withMdx({ 
+  load: 'mdx', 
+  filename: process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? 'thanks-gitlab' : 'thanks',
+  folder: 'static' 
+})();
+
