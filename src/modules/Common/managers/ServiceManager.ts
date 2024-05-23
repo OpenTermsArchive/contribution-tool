@@ -23,7 +23,7 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig() || {};
 
-const authorizedOrganizations = ['ec-jrc','fabianospinelli','p2b'];
+const authorizedOrganizations = ['OpenTermsArchive', 'ambanum'];
 
 const selectorsCheckboxes = [
   '- [ ] **Selectors are:**',
