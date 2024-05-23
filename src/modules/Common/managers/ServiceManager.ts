@@ -7,9 +7,6 @@ import {
   getDataFromCommit,
 } from 'modules/Github/api';
 import {
-  getProjects, 
-  createProject, 
-  deleteProject, 
   createBranch, 
   commitFile, 
   updateFile, 
@@ -188,10 +185,12 @@ _This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIB
         if (committedFile.hasOwnProperty("message")) {
           if (committedFile.message == 'A file with this name already exists') {
             const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
-            const jsonExistingContent = JSON.parse(existingContent);
-            jsonExistingContent.documents[this.type] = json.documents[this.type];
-            fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
-            await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+            if (typeof existingContent === 'string' && existingContent !== null) {
+              const jsonExistingContent = JSON.parse(existingContent);
+              jsonExistingContent.documents[this.type] = json.documents[this.type];
+              fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
+              await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+            }
           }
         }
         // Create a pull request
@@ -304,10 +303,12 @@ _This update suggestion has been created through the [${process.env.NEXT_PUBLIC_
         await createBranch(branchName as string, 'main');
         //fileContent = JSON.stringify(json, undefined, 2);
         const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
-        const jsonExistingContent = JSON.parse(existingContent);
-        jsonExistingContent.documents[this.type] = json.documents[this.type];
-        fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
-        await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+        if (typeof existingContent === 'string' && existingContent !== null) {
+          const jsonExistingContent = JSON.parse(existingContent);
+          jsonExistingContent.documents[this.type] = json.documents[this.type];
+          fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
+          await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
+        }
         // Create a pull request
         const pullRequest = await createPullRequest(branchName as string, 'main', prTitle as string, body as string);
         pullRequest.html_url = pullRequest.web_url;
