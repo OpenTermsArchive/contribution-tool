@@ -77,10 +77,10 @@ const HomePage = ({ mdxContent }: WithMdxResult) => {
           <TextContent>
             <h2>{t('homepage:edit.title')}</h2>
             <div className={classNames('formfield')}>
-              <label htmlFor="github-commit">{t('homepage:edit.subtitle')}</label>
+              <label htmlFor="github-commit">{process.env.NEXT_PUBLIC_REPO_TYPE === 'GITLAB' ? t('homepage:edit.subtitle').replace('GitHub', 'GitLab') : t('homepage:edit.subtitle')}</label>
               <input
                 id="github-commit"
-                placeholder="https://github.com/OpenTermsArchive/contrib-versions/commit/76b17c1038ba610c010c7fb271ae04196de1e19a"
+                placeholder={process.env.NEXT_PUBLIC_REPO_TYPE === 'GITLAB' ? 'https://gitlab.com/OpenTermsArchive/contrib-versions/-/commit/ef851572217a809bd0045282bb530203eefccada' : 'https://github.com/OpenTermsArchive/contrib-versions/commit/76b17c1038ba610c010c7fb271ae04196de1e19a'}
                 onInput={onUseCommit}
               />
             </div>
