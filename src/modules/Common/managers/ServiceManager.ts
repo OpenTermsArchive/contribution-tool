@@ -12,7 +12,7 @@ import { OTAJson } from 'modules/Common/services/open-terms-archive';
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig() || {};
 
-const authorizedOrganizations = ['OpenTermsArchive', 'ambanum'];
+const authorizedOrganizations = ['OpenTermsArchive', 'ambanum', 'iroco-co'];
 
 const selectorsCheckboxes = [
   '- [ ] **Selectors are:**',
@@ -52,7 +52,7 @@ export default class ServiceManager {
 
     if (!authorizedOrganizations.includes(githubOrganization)) {
       throw new Error(
-        `Destination should be OpenTermsArchive/something or ambanum/something. Was ${destination}`
+        `Destination should be one the following authorized organisations: ${authorizedOrganizations.join(', ')}. Was ${destination}`
       );
     }
 
