@@ -51,4 +51,10 @@ export default function ThanksPage({ mdxContent }: WithMdxResult) {
     </Layout>
   );
 }
-export const getStaticProps = withMdx({ load: 'mdx', filename: 'thanks', folder: 'static' })();
+
+export const getStaticProps = withMdx({ 
+  load: 'mdx', 
+  filename: process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? 'thanks-gitlab' : 'thanks',
+  folder: 'static' 
+})();
+

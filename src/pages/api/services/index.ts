@@ -65,7 +65,7 @@ const get =
             status: 'ko',
             message: 'Could not download url',
             url: '',
-            error: "URL seems to be a private address and has been blocked"
+	    error: "URL seems to be a private address and has been blocked"
           });
           return res;
         }
