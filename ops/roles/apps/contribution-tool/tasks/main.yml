@@ -45,6 +45,16 @@
     - start
     - update
 
+- name: Compile Open Terms Archive Contribution tool
+  command:
+    cmd: npm run type-check 
+    chdir: '/home/{{ ansible_user }}/{{ directory }}'
+  environment:
+    NODE_ENV: production
+  tags:
+    - start
+    - update
+
 - name: Build Open Terms Archive Contribution tool
   command:
     cmd: npm run build
