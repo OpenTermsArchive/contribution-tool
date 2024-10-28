@@ -19,3 +19,9 @@ all:
           directory: 'ota-contribute-production'
           port: '7023'
           env_directory: '.env.production'
+    iroco:
+      hosts:
+        production:
+          directory: 'ota-contribute-iroco-production'
+          port: '7025'
+          env_directory: '.env.iroco.production'
