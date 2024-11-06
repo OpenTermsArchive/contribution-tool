@@ -695,8 +695,8 @@ Thank you very much`;
 };
 
 export const getStaticProps = async (props: any) => {
-  let filename_repo = process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? "contributor-form-gitlab" : "contributor-form";
-
+  const isGitlab = process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB";
+  
   return JSON.parse(
     JSON.stringify({
       props: {
@@ -706,7 +706,11 @@ export const getStaticProps = async (props: any) => {
           {
             load: 'mdx',
             folder: 'parts',
-            filename: filename_repo,
+            filename: 'contributor-form',
+            params: {
+              platform: isGitlab ? "GitLab" : "GitHub",
+              platformUrl: isGitlab ? "https://gitlab.com" : "https://github.com",
+            }
           },
           props.locale
         ),

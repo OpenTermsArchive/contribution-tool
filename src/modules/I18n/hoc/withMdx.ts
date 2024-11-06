@@ -13,6 +13,7 @@ interface WithMdxOptions {
   load: 'mdx';
   filename: string;
   folder: string;
+  params?: Record<string, any>;
 }
 
 const CONTENT_FOLDER = 'content';
@@ -56,6 +57,7 @@ export const loadMdxFile = async (options: WithMdxOptions, locale?: string) => {
   return await serialize(fileContent, {
     // Indicates whether or not to parse the frontmatter from the mdx source
     parseFrontmatter: true,
+    scope: options.params,
   });
 };
 
