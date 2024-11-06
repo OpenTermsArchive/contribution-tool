@@ -38,7 +38,7 @@ export default function ThanksPage({ mdxContent }: WithMdxResult) {
       </Container>
 
       <Container gridCols="9" gridGutters="8" paddingY={false}>
-        <TextContent>{mdxContent && <MDXRemote {...mdxContent} scope={{ url }} />}</TextContent>
+        <TextContent>{mdxContent && <MDXRemote {...mdxContent} scope={{ url, platform: process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? "GitLab" : "GitHub" }} />}</TextContent>
       </Container>
 
       <Container gridCols="9" gridGutters="8">
@@ -54,7 +54,7 @@ export default function ThanksPage({ mdxContent }: WithMdxResult) {
 
 export const getStaticProps = withMdx({ 
   load: 'mdx', 
-  filename: process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB" ? 'thanks-gitlab' : 'thanks',
-  folder: 'static' 
+  filename: 'thanks',
+  folder: 'static'
 })();
 
