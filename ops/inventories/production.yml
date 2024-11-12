@@ -6,6 +6,7 @@ all:
     ansible_host: 51.89.227.200
     branch: 'main'
   children:
+    # Only the last "production" host in this list will be deployed when using "npm run deploy:production"
     preprod:
       hosts:
         preproduction:
@@ -13,15 +14,15 @@ all:
           directory: 'ota-contribute-preproduction'
           port: '7024'
           env_directory: '.env.preproduction'
-    prod:
-      hosts:
-        production:
-          directory: 'ota-contribute-production'
-          port: '7023'
-          env_directory: '.env.production'
     iroco:
       hosts:
         production:
           directory: 'ota-contribute-iroco-production'
           port: '7025'
           env_directory: '.env.iroco.production'
+    prod:
+      hosts:
+        production:
+          directory: 'ota-contribute-production'
+          port: '7023'
+          env_directory: '.env.production'
