@@ -24,7 +24,7 @@ const formatJSONfields = (json: OTAJson) => {
             fetch: page?.fetch?.trim(),
             ...(select && select.length > 0 ? { select } : {}),
             ...(remove && remove.length > 0 ? { remove } : {}),
-            ...(page?.filter && page?.filter.length ? { filter: page.filter } : {}),
+            ...(page?.extract && page?.extract.length ? { extract: page.extract } : {}),
             ...(page?.executeClientScripts
               ? { executeClientScripts: page.executeClientScripts }
               : {}),
@@ -230,7 +230,7 @@ const useDocumentDeclaration = () => {
       if (field === 'fetch' && typeof value === 'string' && value?.endsWith('.pdf')) {
         delete (declaration as OTAJson).documents[documentType].select;
         delete (declaration as OTAJson).documents[documentType].remove;
-        delete (declaration as OTAJson).documents[documentType].filter;
+        delete (declaration as OTAJson).documents[documentType].extract;
         delete (declaration as OTAJson).documents[documentType].executeClientScripts;
         pushQueryParam('json')(JSON.stringify(declaration));
       }
