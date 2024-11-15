@@ -17,7 +17,6 @@ import React from 'react';
 import pick from 'lodash/fp/pick';
 import api from 'utils/api';
 import classNames from 'classnames';
-import { getDocumentTypes, DocumentTypes } from 'modules/Github/api';
 import s from './service.module.css';
 import useNotifier from 'hooks/useNotifier';
 import { useRouter } from 'next/router';
@@ -36,6 +35,16 @@ const EMAIL_SUPPORT = 'contribute@opentermsarchive.org';
 type DocumentSelectableField = 'select' | 'remove';
 type ConfigSelectableField = 'hidden';
 type SelectableField = DocumentSelectableField | ConfigSelectableField;
+
+export interface DocumentTypes {
+  [key: string]: {
+    commitment: {
+      writer: string;
+      audience: string;
+      object: string;
+    };
+  };
+}
 
 const ServicePage = ({
   documentTypes,
@@ -697,11 +706,13 @@ Thank you very much`;
 export const getStaticProps = async (props: any) => {
   const isGitlab = process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB";
   
+  const TERMS_TYPES = await import('@opentermsarchive/terms-types');
+  
   return JSON.parse(
     JSON.stringify({
       props: {
         ...props,
-        documentTypes: await getDocumentTypes(),
+        documentTypes: TERMS_TYPES.default || TERMS_TYPES,
         contributorFormMdx: await loadMdxFile(
           {
             load: 'mdx',
@@ -717,7 +728,7 @@ export const getStaticProps = async (props: any) => {
       },
       revalidate: 60 * 5,
     })
-  )
+  );
 };
 
 export default ServicePage;
