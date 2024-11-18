@@ -43,7 +43,7 @@ export const getSnapshot = async (
   pageDeclaration: OTAPageDeclaration,
   config: any
 ): Promise<Snapshot> => {
-  // await launchHeadlessBrowser();
+  await launchHeadlessBrowser();
   const { content, mimeType }: OTASnapshot = await fetch({
     url: pageDeclaration.fetch,
     executeClientScripts: pageDeclaration.executeClientScripts,
