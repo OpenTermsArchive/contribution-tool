@@ -706,13 +706,13 @@ Thank you very much`;
 export const getStaticProps = async (props: any) => {
   const isGitlab = process.env.NEXT_PUBLIC_REPO_TYPE === "GITLAB";
   
-  const TERMS_TYPES = await import('@opentermsarchive/terms-types');
-  
+  const { default: documentTypes } = await import('@opentermsarchive/terms-types');
+
   return JSON.parse(
     JSON.stringify({
       props: {
         ...props,
-        documentTypes: TERMS_TYPES.default || TERMS_TYPES,
+        documentTypes,
         contributorFormMdx: await loadMdxFile(
           {
             load: 'mdx',
