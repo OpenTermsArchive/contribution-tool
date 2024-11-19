@@ -1,6 +1,6 @@
 import fetch, { launchHeadlessBrowser, stopHeadlessBrowser } from '@opentermsarchive/engine/fetch';
-import filter from '@opentermsarchive/engine/filter';
-import PageDeclaration from '@opentermsarchive/engine/page-declaration';
+import extract from '@opentermsarchive/engine/extract';
+import SourceDocument from '@opentermsarchive/engine/sourceDocument';
 import { cleanStringForFileSystem } from 'utils/filesystem';
 
 export interface OTARangeSelector {
@@ -27,7 +27,7 @@ export interface OTAPageDeclaration {
   select?: string | OTASelector[];
   remove?: string | OTASelector[];
   executeClientScripts?: boolean;
-  filter?: string[];
+  extract?: string[];
   combine?: OTAPageDeclaration[];
 }
 
@@ -48,10 +48,10 @@ export const getSnapshot = async (
     url: pageDeclaration.fetch,
     executeClientScripts: pageDeclaration.executeClientScripts,
     cssSelectors: [
-      ...PageDeclaration.extractCssSelectorsFromProperty(pageDeclaration.select),
-      ...PageDeclaration.extractCssSelectorsFromProperty(pageDeclaration.remove),
+      ...SourceDocument.extractCssSelectorsFromProperty(pageDeclaration.select),
+      ...SourceDocument.extractCssSelectorsFromProperty(pageDeclaration.remove),
     ].filter(Boolean),
-    config,
+    config: { ...{ navigationTimeout: 30000, language: 'en', waitForElementsTimeout: 10000 }, ...config },
   });
   await stopHeadlessBrowser();
 
@@ -63,7 +63,7 @@ export const getSnapshot = async (
 };
 
 export const getVersionFromSnapshot = async ({ content, mimeType, pageDeclaration }: Snapshot) => {
-  const version: OTAVersion = await filter({
+  const version: OTAVersion = await extract({
     content,
     mimeType,
     pageDeclaration: {
@@ -97,7 +97,7 @@ export const generateFolderName = (
   const MAX_FOLDER_CHARACTERS = 256;
   const urlString = cleanStringForFileSystem(fetch.replace(/http?s:\/\//, ''));
   const selectString = select
-    ? `_${PageDeclaration.extractCssSelectorsFromProperty(select).filter(Boolean)}`
+    ? `_${SourceDocument.extractCssSelectorsFromProperty(select).filter(Boolean)}`
     : '';
   const fullDomParameters = executeClientScripts ? `1_${selectString}` : '0';
   const additionalParameters = additionalParameter || '';

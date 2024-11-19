@@ -11,14 +11,15 @@
     "encrypt": "grep -rL \"ANSIBLE\" ./ops/roles/*/files/{.env.*.*,.env.*}/.env.secrets| sort -u  | xargs ansible-vault encrypt",
     "decrypt": "grep -rl \"ANSIBLE\" ./ops/roles/*/files/{.env.*.*,.env.*}/.env.secrets| sort -u  | xargs ansible-vault decrypt",
     "deploy:vagrant": "ansible-playbook ops/site.yml -i ops/inventories/dev.yml --limit vagrant -vvv",
-    "deploy:preproduction": "ansible-playbook ops/site.yml -i ops/inventories/production.yml --diff --limit preproduction -vvv",
-    "deploy:production": "ansible-playbook ops/site.yml -i ops/inventories/production.yml  --limit production",
+    "deploy:preproduction": "ansible-playbook ops/site.yml -i ops/inventories/production.yml --diff --limit preproduction",
+    "deploy:production": "ansible-playbook ops/site.yml -i ops/inventories/production.yml --limit '!preproduction'",
     "test": "jest",
     "prettier": "prettier --write ."
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
-    "@opentermsarchive/engine": "^0.26.0",
+    "@opentermsarchive/engine": "^2.5.0",
+    "@opentermsarchive/terms-types": "^1.4.0",
     "@socialgouv/matomo-next": "^1.2.1",
     "@svgr/webpack": "^5.5.0",
     "accept-language": "^3.0.18",

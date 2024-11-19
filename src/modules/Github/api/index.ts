@@ -1,8 +1,4 @@
-const DOCUMENT_TYPES_URL =
-  'https://raw.githubusercontent.com/OpenTermsArchive/terms-types/main/termsTypes.json';
-
 import { Octokit } from 'octokit';
-import axios from 'axios';
 import merge from 'lodash/fp/merge';
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
@@ -30,26 +26,6 @@ export interface Author {
 }
 
 export type Commits = Commit[];
-
-export interface DocumentTypes {
-  [key: string]: {
-    commitment: {
-      writer: string;
-      audience: string;
-      object: string;
-    };
-  };
-}
-
-export const getDocumentTypes = async () => {
-  try {
-    const { data: documentTypes } = await axios.get<DocumentTypes>(DOCUMENT_TYPES_URL);
-    return documentTypes;
-  } catch (e) {
-    console.error(e);
-    return {};
-  }
-};
 
 export const getFileContent = async ({
   branch,
