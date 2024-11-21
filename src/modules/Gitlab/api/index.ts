@@ -1,5 +1,6 @@
 const gitlabUrl = process.env.GITLAB_URL;
 const accessToken = process.env.GITLAB_TOKEN;
+const accessTokenVersions = process.env.GITLAB_TOKEN_VERSIONS;
 const projectId = process.env.GITLAB_PROJECT_ID;
 
 export async function getProjects() {
@@ -113,6 +114,8 @@ export async function getCommitInfo(commitId: string, sourceProjectId: string) {
 export async function getProjectId(repositoryPath: string) {
     const url = `${gitlabUrl}/projects/${encodeURIComponent(repositoryPath)}`;
     const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessTokenVersions}`
     };
 
     try {
@@ -133,6 +136,8 @@ export async function getProjectId(repositoryPath: string) {
 export async function getModifiedFilesInCommit(commitId: string, sourceProjectId: string) {
     const url = `${gitlabUrl}/projects/${sourceProjectId}/repository/commits/${commitId}/diff`;
     const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessTokenVersions}`
     };
 
     try {

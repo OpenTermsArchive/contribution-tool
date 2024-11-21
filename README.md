@@ -36,6 +36,30 @@ In order for the service to automatically create issues in Github when a submitt
 
 - `GITHUB_TOKEN`: A token with repository privileges which allow access to the [GitHub API](https://github.com/settings/tokens).
 
+### `GITLAB_TOKEN`
+
+In order for the service to automatically create issues in GitLab when a submitting a new service declaration, you need the below environment variables:
+
+- `GITLAB_TOKEN`: A token with the api scope which allows access to the [GitLab API](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+
+### `GITLAB_TOKEN_VERSIONS`
+
+In order for the service to read from the versions repository in GitLab to edit a commit, you need the below environment variables:
+
+- `GITLAB_TOKEN_VERSIONS`: A token with the read_api scope which allows read access to the [GitLab API](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+
+### `GITLAB_URL`
+
+In order for the service to use the GitLab APIs to interact with the repositories, you need the below environment variables:
+
+- `GITLAB_URL`: The base api url of the GitLab server (for example it would be https://gitlab.com/api/v4/ if hosted on gitlab.com).
+
+### `GITLAB_PROJECT_ID`
+
+In order for the service to use the GitLab APIs to interact with the declarations repository, you need the below environment variables:
+
+- `GITLAB_PROJECT_ID`: The project ID of the repository.
+
 ### `NEXT_PUBLIC_MATOMO_URL`, `NEXT_PUBLIC_MATOMO_SITE_ID`
 
 You can easily set up analytics with [Matomo](https://matomo.org/) by providing those 2 values.
