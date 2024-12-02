@@ -19,7 +19,7 @@
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@opentermsarchive/engine": "^2.5.0",
-    "@opentermsarchive/terms-types": "^1.4.0",
+    "@opentermsarchive/terms-types": "^2.0.0",
     "@socialgouv/matomo-next": "^1.2.1",
     "@svgr/webpack": "^5.5.0",
     "accept-language": "^3.0.18",
