@@ -38,11 +38,11 @@ type SelectableField = DocumentSelectableField | ConfigSelectableField;
 
 export interface DocumentTypes {
   [key: string]: {
-    commitment: {
-      writer: string;
-      audience: string;
-      object: string;
-    };
+    obligee: string;
+    topic: string;
+    aliases?: string[];
+    industries?: string[];
+    references?: Record<string, string>;
   };
 }
 
@@ -142,7 +142,6 @@ const ServicePage = ({
   const submitDisabled = versionDisabled || !declaration?.name;
   const isLoadingIframe = !data && !apiError;
   const error = data?.error || apiError?.toString();
-  const documentTypeCommitment = documentTypes[documentType]?.commitment || {};
   const versionsRepository = `https://github.com/${destination?.replace(
     '-declarations',
     '-versions'
@@ -368,14 +367,15 @@ Thank you very much`;
                   <FiChevronDown color="333333"></FiChevronDown>
                   {documentType && (
                     <dl>
-                      {Object.entries(documentTypeCommitment).map(
-                        ([tryptichKey, tryptichValue]) => (
-                          <React.Fragment key={`tryptich_${tryptichKey}`}>
-                            <dt>{tryptichKey}</dt>
-                            <dd>{tryptichValue}</dd>
+                      {Object.entries(documentTypes[documentType] || {})
+                        .filter(([key]) => !['references', 'industries'].includes(key))
+                        .map(([key, value]) => (
+                          <React.Fragment key={`documentType_detail_${key}`}>
+                            <dt>{key.charAt(0).toUpperCase() + key.slice(1)}</dt>
+                            <dd>{Array.isArray(value) ? value.join(', ') : value}</dd>
                           </React.Fragment>
-                        )
-                      )}
+                        ))
+                      }
                     </dl>
                   )}
                 </div>
