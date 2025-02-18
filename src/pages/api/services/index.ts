@@ -144,7 +144,7 @@ const saveHistoryFile = async ({
     ...historyJson,
     [documentType]: [
       {
-        ...existingJson.documents[documentType],
+        ...existingJson.terms[documentType],
         validUntil: lastFailingDate ? dayjs(lastFailingDate).format() : 'to-be-determined',
       },
       ...(historyJson[documentType] || []),
@@ -158,8 +158,7 @@ const saveOnLocal =
   async (_: NextApiRequest, res: NextApiResponse<any>) => {
     try {
       let json = JSON.parse(data);
-
-      const documentType = Object.keys(json.documents)[0];
+      const documentType = Object.keys(json.terms)[0];
       const sanitizedName = json.name.replace(/[^\p{L}\.\s\d]/gimu, '');
       const fullPath = `${path}/${sanitizedName}.json`;
       const historyFullPath = `${path}/${sanitizedName}.history.json`;
@@ -175,7 +174,7 @@ const saveOnLocal =
         });
         json = {
           ...existingJson,
-          documents: { ...existingJson.documents, [documentType]: json.documents[documentType] },
+          terms: { ...existingJson.terms, [documentType]: json.terms[documentType] },
         };
       }
 

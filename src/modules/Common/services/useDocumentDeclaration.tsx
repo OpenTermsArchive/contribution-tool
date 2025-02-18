@@ -10,15 +10,15 @@ type DocumentDeclarationStringField = 'name' | 'documentType';
 type PageStringField = 'fetch';
 
 const formatJSONfields = (json: OTAJson) => {
-  const documentType = Object.keys(json.documents)[0];
-  const page = json.documents[documentType];
+  const documentType = Object.keys(json.terms)[0];
+  const page = json.terms[documentType];
 
   const select = page?.select ? (Array.isArray(page.select) ? page.select : [page.select]) : null;
   const remove = page?.remove ? (Array.isArray(page.remove) ? page.remove : [page.remove]) : null;
 
   return {
     name: json.name?.trim(),
-    documents: documentType
+    terms: documentType
       ? {
           [documentType]: {
             fetch: page?.fetch?.trim(),
@@ -49,7 +49,7 @@ const createDeclarationFromQueryParams = (queryParams: any) => {
 
   let declaration = {
     name: '?',
-    documents: {},
+    terms: {},
   } as OTAJson;
 
   if (json) {
@@ -58,7 +58,7 @@ const createDeclarationFromQueryParams = (queryParams: any) => {
     // Support old URLs created by Open Terms Archive in GitHub issues
     declaration = {
       name,
-      documents: {
+      terms: {
         [documentType]: {
           fetch: url,
           executeClientScripts,
@@ -150,19 +150,19 @@ const useDocumentDeclaration = () => {
 
   const { loading, latestDeclaration, declaration } = useDeclarationFromQueryParams();
 
-  const [document] = Object.entries(declaration?.documents || {}) || [[]];
+  const [document] = Object.entries(declaration?.terms || {}) || [[]];
   const [documentType, page] = document || [];
 
   const updateString = (field: PageStringField) => (value: string) => {
-    (declaration as OTAJson).documents[documentType][field] = value.trim();
+    (declaration as OTAJson).terms[documentType][field] = value.trim();
     pushQueryParam('json')(JSON.stringify(declaration));
   };
 
   const updateBoolean = (field: PageBooleanField) => (value?: boolean) => {
     if (value) {
-      (declaration as OTAJson).documents[documentType][field] = value;
+      (declaration as OTAJson).terms[documentType][field] = value;
     } else {
-      delete (declaration as OTAJson).documents[documentType][field];
+      delete (declaration as OTAJson).terms[documentType][field];
     }
     pushQueryParam('json')(JSON.stringify(declaration));
   };
@@ -196,7 +196,7 @@ const useDocumentDeclaration = () => {
       }
 
       pageField = (pageField || []).filter(Boolean);
-      (declaration as OTAJson).documents[documentType][field] = pageField;
+      (declaration as OTAJson).terms[documentType][field] = pageField;
 
       pushQueryParam('json')(JSON.stringify(declaration));
     };
@@ -207,7 +207,7 @@ const useDocumentDeclaration = () => {
         return;
       }
       if (field === 'documentType') {
-        (declaration as OTAJson).documents = { [value]: page };
+        (declaration as OTAJson).terms = { [value]: page };
       } else {
         (declaration as OTAJson)[field] = value;
       }
@@ -228,10 +228,10 @@ const useDocumentDeclaration = () => {
 
       // Reset page declaration when url is a PDF
       if (field === 'fetch' && typeof value === 'string' && value?.endsWith('.pdf')) {
-        delete (declaration as OTAJson).documents[documentType].select;
-        delete (declaration as OTAJson).documents[documentType].remove;
-        delete (declaration as OTAJson).documents[documentType].extract;
-        delete (declaration as OTAJson).documents[documentType].executeClientScripts;
+        delete (declaration as OTAJson).terms[documentType].select;
+        delete (declaration as OTAJson).terms[documentType].remove;
+        delete (declaration as OTAJson).terms[documentType].extract;
+        delete (declaration as OTAJson).terms[documentType].executeClientScripts;
         pushQueryParam('json')(JSON.stringify(declaration));
       }
     };

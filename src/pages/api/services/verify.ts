@@ -9,7 +9,7 @@ const get =
   (json: OTAJson, acceptLanguage: string = 'en') =>
   async (_: NextApiRequest, res: NextApiResponse<GetServiceVerifyResponse>) => {
     try {
-      const data = await getVersion(Object.values(json.documents)[0], { language: acceptLanguage });
+      const data = await getVersion(Object.values(json.terms)[0], { language: acceptLanguage });
       res.statusCode = HttpStatusCode.OK;
       res.json({
         status: 'ok',

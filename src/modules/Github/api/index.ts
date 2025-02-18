@@ -212,9 +212,9 @@ export const updateDocumentsInBranch = async ({
     merger: (existingContent, content) => {
       const newContent = merge(existingContent, content);
       // merge everything except the current submitted document
-      newContent.documents = {
-        ...existingContent.documents,
-        ...content.documents,
+      newContent.terms = {
+        ...existingContent.terms,
+        ...content.terms,
       };
       return newContent;
     },
@@ -226,7 +226,7 @@ export const updateDocumentsInBranch = async ({
       filePath: historyFilePath,
       fromBranch: branch,
       toBranch: branch,
-      content: prevContent.documents[documentType],
+      content: prevContent.terms[documentType],
       message: historyMessage,
       author,
       merger: (existingContent, contentToInsert) => ({
@@ -316,9 +316,9 @@ export const createDocumentUpdatePullRequest = async ({
     merger: (existingContent, content) => {
       const newContent = merge(existingContent, content);
       // merge everything except the current submitted document
-      newContent.documents = {
-        ...existingContent.documents,
-        ...content.documents,
+      newContent.terms = {
+        ...existingContent.terms,
+        ...content.terms,
       };
       return newContent;
     },
@@ -329,7 +329,7 @@ export const createDocumentUpdatePullRequest = async ({
     filePath: historyFilePath,
     fromBranch: targetBranch,
     toBranch: newBranch,
-    content: prevContent.documents[documentType],
+    content: prevContent.terms[documentType],
     message: historyMessage,
     author,
     merger: (existingContent, contentToInsert) => ({

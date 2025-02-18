@@ -147,7 +147,7 @@ export default class ServiceManager {
     const prTitle = `Add ${this.name} ${this.type}`;
     const branchName = snakeCase(prTitle);
 
-    const hasSelector = !!json?.documents[this.type]?.select;
+    const hasSelector = !!json?.terms[this.type]?.select;
 
     const checkBoxes = [
       '- [ ] The suggested document **matches the scope of this instance**: it targets a service in the language, jurisdiction, and industry that are part of those [described](../#scope) for this instance.',
@@ -187,7 +187,7 @@ _This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIB
             const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
             if (typeof existingContent === 'string' && existingContent !== null) {
               const jsonExistingContent = JSON.parse(existingContent);
-              jsonExistingContent.documents[this.type] = json.documents[this.type];
+              jsonExistingContent.terms[this.type] = json.terms[this.type];
               fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
               await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
             }
@@ -257,7 +257,7 @@ _This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIB
   }) {
     const prTitle = `Update ${this.name} ${this.type}`;
     const branchName = snakeCase(prTitle);
-    const hasSelector = !!json?.documents[this.type]?.select;
+    const hasSelector = !!json?.terms[this.type]?.select;
 
     let validUntilCheckboxes: string[] = [];
     if (process.env.NEXT_PUBLIC_REPO_TYPE != 'GITLAB') {
@@ -305,7 +305,7 @@ _This update suggestion has been created through the [${process.env.NEXT_PUBLIC_
         const existingContent  = await getFileContentRaw('main', this.declarationFilePath);
         if (typeof existingContent === 'string' && existingContent !== null) {
           const jsonExistingContent = JSON.parse(existingContent);
-          jsonExistingContent.documents[this.type] = json.documents[this.type];
+          jsonExistingContent.terms[this.type] = json.terms[this.type];
           fileContent = JSON.stringify(jsonExistingContent, undefined, 2);
           await updateFile(branchName as string, this.declarationFilePath as string, fileContent as string);
         }
@@ -401,11 +401,11 @@ _This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIB
     const fullDeclaration = JSON.parse(existingContentString) as OTAJson;
 
     return {
-      declaration: fullDeclaration.documents[this.type]
+      declaration: fullDeclaration.terms[this.type]
         ? {
             ...fullDeclaration,
-            documents: {
-              [this.type]: fullDeclaration.documents[this.type],
+            terms: {
+              [this.type]: fullDeclaration.terms[this.type],
             },
           }
         : null,

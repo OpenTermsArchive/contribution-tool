@@ -13,7 +13,7 @@ export interface OTARangeSelector {
 export type OTASelector = string | OTARangeSelector;
 export interface OTAJson {
   name: string;
-  documents: {
+  terms: {
     [key: string]: OTAPageDeclaration;
   };
 }
