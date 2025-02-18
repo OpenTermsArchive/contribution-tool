@@ -16,6 +16,9 @@ export interface OTAJson {
   terms: {
     [key: string]: OTATermsDeclaration;
   };
+  documents?: {
+    [key: string]: OTATermsDeclaration;
+  };
 }
 interface OTASnapshot {
   content: string;

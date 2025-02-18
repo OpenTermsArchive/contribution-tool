@@ -158,6 +158,13 @@ const saveOnLocal =
   async (_: NextApiRequest, res: NextApiResponse<any>) => {
     try {
       let json = JSON.parse(data);
+      
+      // Replace "documents" with "terms" if needed
+      if (json.documents && !json.terms) {
+        json.terms = json.documents;
+        delete json.documents;
+      }
+
       const documentType = Object.keys(json.terms)[0];
       const sanitizedName = json.name.replace(/[^\p{L}\.\s\d]/gimu, '');
       const fullPath = `${path}/${sanitizedName}.json`;

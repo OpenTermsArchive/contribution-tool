@@ -10,6 +10,13 @@ type DocumentDeclarationStringField = 'name' | 'documentType';
 type PageStringField = 'fetch';
 
 const formatJSONfields = (json: OTAJson) => {
+
+  // Replace "documents" with "terms" if needed
+  if (json.documents && !json.terms) {
+    json.terms = json.documents;
+    delete json.documents;
+  }
+
   const documentType = Object.keys(json.terms)[0];
   const page = json.terms[documentType];
 
