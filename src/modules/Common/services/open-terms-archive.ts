@@ -23,6 +23,7 @@ interface OTASnapshot {
   declaration: OTATermsDeclaration;
 }
 
+export type Snapshot = OTASnapshot;
 export interface OTATermsDeclaration {
   fetch: string;
   select?: string | OTASelector[];

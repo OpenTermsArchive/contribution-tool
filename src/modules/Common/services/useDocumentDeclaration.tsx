@@ -1,4 +1,4 @@
-import type { OTAJson, OTAPageDeclaration } from 'modules/Common/services/open-terms-archive';
+import type { OTAJson, OTATermsDeclaration } from 'modules/Common/services/open-terms-archive';
 import useUrl from 'hooks/useUrl';
 import React from 'react';
 import useSwr from 'swr';
@@ -216,7 +216,7 @@ const useDocumentDeclaration = () => {
 
   const onPageDeclarationUpdate =
     (type: 'add' | 'update' | 'delete') =>
-    (field: keyof OTAPageDeclaration, index?: number) =>
+    (field: keyof OTATermsDeclaration, index?: number) =>
     (value?: string | boolean) => {
       if (Array.isArray(page[field]) || ['select', 'remove'].includes(field)) {
         updateArray(type)(field as PageArrayField, index)(value as string);
