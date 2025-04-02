@@ -383,7 +383,7 @@ export const getLatestFailDate = async ({ serviceName, documentType, ...commonPa
     const issues = await searchIssues({
       ...commonParams,
       state: 'open',
-      title: `${serviceName} ‧ ${documentType} ‧ not tracked anymore`,
+      title: `\`${serviceName}\` ‧ \`${documentType}\` ‧ not tracked anymore`,
     });
     const issue = issues[0];
 
