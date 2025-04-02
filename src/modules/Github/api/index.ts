@@ -383,7 +383,7 @@ export const getLatestFailDate = async ({ serviceName, documentType, ...commonPa
     const issues = await searchIssues({
       ...commonParams,
       state: 'open',
-      title: `Fix ${serviceName} - ${documentType}`,
+      title: `\`${serviceName}\` ‧ \`${documentType}\` ‧ not tracked anymore`,
     });
     const issue = issues[0];
 
@@ -415,9 +415,8 @@ export const getLatestFailDate = async ({ serviceName, documentType, ...commonPa
     const failingComments = allComments.filter(
       ({ body }) =>
         body &&
-        (body.startsWith('🤖 Reopened') ||
-          body.includes('no longer properly tracked') ||
-          body.includes('not available anymore'))
+        body.includes('No version of the') &&
+        body.includes('is recorded anymore since')
     );
 
     const mostRecentFailingComment = failingComments[failingComments.length - 1];
