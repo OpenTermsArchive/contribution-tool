@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV: production
+      NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL: "Contribution Tool"
+      NEXT_PUBLIC_CONTRIBUTION_TOOL_URL: "https://github.com/OpenTermsArchive/contribution-tool"
     steps:
       - uses: actions/checkout@v2
         with:
