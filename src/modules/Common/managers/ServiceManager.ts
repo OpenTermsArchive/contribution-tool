@@ -23,6 +23,9 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig() || {};
 
+const CONTRIBUTION_TOOL_LABEL = process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL || 'Contribution Tool';
+const CONTRIBUTION_TOOL_URL = process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL || 'https://github.com/OpenTermsArchive/contribution-tool';
+
 const authorizedOrganizations = ['OpenTermsArchive', 'ambanum', 'iroco-co'];
 
 const selectorsCheckboxes = [
@@ -172,7 +175,7 @@ Thanks to your work and attention, Open Terms Archive will ensure that high qual
 
 - - -
 
-_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${CONTRIBUTION_TOOL_LABEL}](${CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
     if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
@@ -221,7 +224,7 @@ ${checkBoxes.join('\n')}
 
 - - -
 
-_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${CONTRIBUTION_TOOL_LABEL}](${CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
           // a branch already exists wit this name, add a commit to it
           return await updateDocumentsInBranch({
@@ -293,7 +296,7 @@ Thanks to your work and attention, Open Terms Archive will ensure that high qual
 ${issueNumber ? `Fixes #${issueNumber}` : ''}
 - - -
 
-_This update suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This update suggestion has been created through the [${CONTRIBUTION_TOOL_LABEL}](${CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
     if (process.env.NEXT_PUBLIC_REPO_TYPE == 'GITLAB') {
@@ -340,7 +343,7 @@ ${checkBoxes.join('\n')}
 
 - - -
 
-_This suggestion has been created through the [${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_LABEL}](${process.env.NEXT_PUBLIC_CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
+_This suggestion has been created through the [${CONTRIBUTION_TOOL_LABEL}](${CONTRIBUTION_TOOL_URL}), which enables graphical declaration of documents. You can load it [on your local instance](${localUrl}) if you have one set up._
 `;
 
       // a branch already exists wit this name, add a commit to it
