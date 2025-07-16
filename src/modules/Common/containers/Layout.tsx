@@ -1,4 +1,5 @@
-import { FiGithub, FiMail, FiTwitter } from 'react-icons/fi';
+import { FiGithub, FiMail } from 'react-icons/fi';
+import { FaMastodon } from 'react-icons/fa';
 import React, { ReactNode } from 'react';
 
 import { Analytics } from 'modules/Analytics';
@@ -42,14 +43,16 @@ const Layout = ({
                   <LanguageSwitcher />
                   <ul>
                     <li>
-                      <Link href="https://twitter.com/OpenTerms">
+                      <Link href="https://mastodon.social/@opentermsarchive">
                         <a
-                          className={classNames('icon_circle')}
                           target="_blank"
                           rel="noopener"
-                          title={t('header:link.twitter.title')}
+                          title={t('footer:link.mastodon.title')}
+                          className={classNames('a_icontext', 'a__small', 'footer_menus_icontext')}
                         >
-                          <FiTwitter color="#fefffd" />
+                          <span className={classNames('icon_circle', 'mr__2XS')}>
+                            <FaMastodon color="#fefffd" />
+                          </span>
                         </a>
                       </Link>
                     </li>
@@ -90,17 +93,17 @@ const Layout = ({
             <FooterMenu>
               <ul>
                 <li>
-                  <Link href="https://twitter.com/OpenTerms">
+                  <Link href="https://mastodon.social/@opentermsarchive">
                     <a
                       target="_blank"
                       rel="noopener"
-                      title={t('footer:link.twitter.title')}
+                      title={t('footer:link.mastodon.title')}
                       className={classNames('a_icontext', 'a__small', 'footer_menus_icontext')}
                     >
                       <span className={classNames('icon_circle', 'icon_circle__medium', 'mr__2XS')}>
-                        <FiTwitter color="#fefffd" />
+                        <FaMastodon color="#fefffd" />
                       </span>
-                      <span>{t('footer:link.twitter')}</span>
+                      <span>{t('footer:link.mastodon')}</span>
                     </a>
                   </Link>
                 </li>
