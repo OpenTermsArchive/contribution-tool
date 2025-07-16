@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import { useRouter } from 'next/router';
-const twitterUser = 'OpenTerms';
 const websiteName = 'opentermsarchive.org';
 const type = 'website';
 
@@ -52,7 +51,6 @@ export default function CommonHead({
       <meta name="twitter:title" content={title} />
       {description && <meta name="twitter:description" content={description} />}
       <meta name="twitter:image" content={twitterCard} />
-      {twitterUser && <meta name="twitter:site" content={twitterUser} />}
 
       {/* OPENGRAPH https://ogp.me/ */}
       <meta property="og:title" content={title} />
