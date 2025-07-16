@@ -1,4 +1,5 @@
 import { FiGithub, FiMail } from 'react-icons/fi';
+import { FaMastodon } from 'react-icons/fa';
 import React, { ReactNode } from 'react';
 
 import { Analytics } from 'modules/Analytics';
@@ -42,6 +43,20 @@ const Layout = ({
                   <LanguageSwitcher />
                   <ul>
                     <li>
+                      <Link href="https://mastodon.social/@opentermsarchive">
+                        <a
+                          target="_blank"
+                          rel="noopener"
+                          title={t('footer:link.mastodon.title')}
+                          className={classNames('a_icontext', 'a__small', 'footer_menus_icontext')}
+                        >
+                          <span className={classNames('icon_circle', 'mr__2XS')}>
+                            <FaMastodon color="#fefffd" />
+                          </span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="https://github.com/OpenTermsArchive/contribution-tool">
                         <a
                           className={classNames('icon_circle')}
@@ -77,6 +92,21 @@ const Layout = ({
           <Footer>
             <FooterMenu>
               <ul>
+                <li>
+                  <Link href="https://mastodon.social/@opentermsarchive">
+                    <a
+                      target="_blank"
+                      rel="noopener"
+                      title={t('footer:link.mastodon.title')}
+                      className={classNames('a_icontext', 'a__small', 'footer_menus_icontext')}
+                    >
+                      <span className={classNames('icon_circle', 'icon_circle__medium', 'mr__2XS')}>
+                        <FaMastodon color="#fefffd" />
+                      </span>
+                      <span>{t('footer:link.mastodon')}</span>
+                    </a>
+                  </Link>
+                </li>
                 <li>
                   <Link href="mailto:contact@opentermsarchive.org">
                     <a

@@ -2,5 +2,7 @@
   "link.contact": "Contactez-nous",
   "link.contact.title": "Contactez nous par email",
   "link.github": "Code source",
-  "link.github.title": "Voir le code source"
+  "link.github.title": "Voir le code source",
+  "link.mastodon": "Suivez-nous",
+  "link.mastodon.title": "Suivez-nous sur Mastodon"
 }
