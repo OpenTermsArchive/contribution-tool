@@ -333,7 +333,7 @@ Thank you very much`;
                 <label>
                   {t('service:form.documentType')}
                   <LinkIcon
-                    href="https://docs.opentermsarchive.org/contributing-terms/#terms-type"
+                    href="https://docs.opentermsarchive.org/terms/explanation/terms-types/"
                     small={true}
                     iconName="FiHelpCircle"
                     iconPosition="last"
