@@ -1,7 +1,0 @@
----
-- name: Node
-  hosts: all
-  become: yes
-
-  roles:
-    - infra/node

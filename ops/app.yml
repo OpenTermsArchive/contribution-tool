@@ -1,5 +1,0 @@
----
-- name: Setup ota-contribution-tool
-  hosts: all
-
-- import_playbook: playbooks/apps/contribution-tool.yml
