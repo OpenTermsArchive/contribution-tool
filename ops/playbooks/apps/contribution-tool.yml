@@ -1,6 +1,0 @@
----
-- name: Contribution tool
-  hosts: all
-
-  roles:
-    - apps/contribution-tool

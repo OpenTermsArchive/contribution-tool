@@ -1,0 +1,55 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  list-environments:
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.list.outputs.environments }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: List deployment environments
+        id: list
+        run: |
+          environments=$(find deployment -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "environments=$environments" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: list-environments
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.list-environments.outputs.environments) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set environment name uppercase
+        id: env_name
+        run: echo "uppercase=$(echo '${{ matrix.environment }}' | tr '[:lower:]' '[:upper:]')" >> $GITHUB_OUTPUT
+      - name: Get target server hostname
+        id: get_hostname
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.all.hosts | keys | .[]' deployment/${{ matrix.environment }}/inventory.yml
+      - name: Get target server fingerprint
+        id: get_fingerprint
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.all.hosts[].ed25519_fingerprint' deployment/${{ matrix.environment }}/inventory.yml
+      - name: Set up SSH
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets[format('SERVER_SSH_KEY_{0}', steps.env_name.outputs.uppercase)] }}
+          known_hosts: ${{ steps.get_hostname.outputs.result }} ssh-ed25519 ${{ steps.get_fingerprint.outputs.result }}
+      - run: echo "${{ secrets[format('ANSIBLE_VAULT_KEY_{0}', steps.env_name.outputs.uppercase)] }}" > deployment/${{ matrix.environment }}/vault.key
+      - run: pip install --upgrade setuptools
+      - run: pip install 'ansible ~= 9.4.0'
+      - name: Install dependencies
+        working-directory: ./deployment/${{ matrix.environment }}
+        run: ansible-galaxy collection install -p ./ -r requirements.yml --force
+      - name: Deploy
+        working-directory: ./deployment/${{ matrix.environment }}
+        run: ansible-playbook ./ansible_collections/opentermsarchive/deployment/playbooks/deploy.yml

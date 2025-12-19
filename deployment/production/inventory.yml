@@ -1,0 +1,10 @@
+all:
+  hosts:
+    162.19.74.224:
+      ansible_user: ota
+      ed25519_fingerprint: AAAAC3NzaC1lZDI1NTE5AAAAIGcuX6/msM3RT3HHnZ22fC+zgqucPIoZbnnZ5cLEztYV
+      ota_contribution_tool_repository: https://github.com/OpenTermsArchive/contribution-tool.git
+      ota_contribution_tool_directory_override: ota-contribution-tool-production
+      ota_rate_limit_rate: "30r/s"
+      ota_rate_limit_burst: 15
+      ota_rate_limit_zone_size: "20m"

@@ -1,7 +1,0 @@
----
-- name: Git
-  hosts: all
-  become: yes
-
-  roles:
-    - infra/git
