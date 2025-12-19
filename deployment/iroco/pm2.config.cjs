@@ -1,12 +1,9 @@
-const path = require('path');
-
 module.exports = {
   apps: [
     {
       name: "ota-contribution-tool-iroco",
       script: 'npm',
       args: 'start',
-      cwd: '/home/debian/' + path.basename(__dirname),
       env: {
         NODE_ENV: 'production'
       },
