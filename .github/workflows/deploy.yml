@@ -24,6 +24,7 @@ jobs:
       matrix:
         environment: ${{ fromJson(needs.list-environments.outputs.environments) }}
       fail-fast: false
+      max-parallel: 1
     steps:
       - uses: actions/checkout@v4
       - name: Set environment name uppercase
